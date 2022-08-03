@@ -5,3 +5,10 @@
 .fa-size-100 {
     font-size: 100px;
 }
+
+.text-ellipsis {
+    white-space: nowrap; 
+    width: 100%; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}

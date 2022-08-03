@@ -1,5 +1,17 @@
 $(document).ready(function() {
-    filmOrGenderGetData();
+    let dataPicker = $('.selectDate');
+
+    if(dataPicker.length > 0) {
+        dataPicker.daterangepicker({
+            singleDatePicker: true,
+            startDate: moment().subtract(0, 'days'),
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+    }
+
+    filmGetData();
 });
 
 $(document).on('click', '.btnAction', function(e) {
@@ -15,8 +27,12 @@ $(document).on('click', '.btnAction', function(e) {
             abrirModal(btn);
         break;
 
-        case 'pelicula-tipo-genero':
+        case 'pelicula-dato':
             filmSendData(btn);
+        break;
+
+        case 'pelicula-tipo-genero':
+            filmTypeGenereSendData(btn);
         break;
     }
 });
@@ -31,7 +47,27 @@ $(document).on('click', '.btnCloseModal', function(e) {
     $( $(this).data('modal') ).modal('hide');
 });
 
-function filmOrGenderGetData() {
+$(document).on('click', '.page-link', function(e){
+    e.preventDefault();
+    let route = $(this).attr('href');
+    let page = $(this).attr('href').split('page=')[1];
+    fetch_data(route, page);
+});
+
+function fetch_data(route, page)
+{
+    $.ajax({
+        url: route,
+        method: "GET",
+        data: {page:page},
+        success: function(data)
+        {
+            $('#dataDisplayPagination').html(data.view);
+        }
+    });
+}
+
+function filmGetData() {
     let routeLoadData = $('#getData');
 
     if(routeLoadData.length > 0) {
@@ -63,13 +99,60 @@ function filmSendData(btn) {
         url: route,
         type: method,
         dataType: 'JSON',
+        data: {
+            formType: $('#formType').val(),
+            pelicula_dato_nombre: $('#pelicula_dato_nombre').val(),
+            pelicula_dato_fecha_estreno: $('#pelicula_dato_fecha_estreno').val(),
+            pelicula_dato_precio_unitario: $('#pelicula_dato_precio_unitario').val(),
+            pelicula_tipo_id: $('#pelicula_tipo_id').val(),
+            pelicula_dato_sinopsis: $('#pelicula_dato_sinopsis').val(),
+        },
+        success: function(data) {
+            if(data.status == 'ok')
+            {
+                window.location.href = data.route;
+            }
+        },
+        error: function(xhr, status, response) {
+            btn.attr('disabled', false);
+
+            $('.pelicula_dato_nombreError').html('&nbsp;');
+            $('.pelicula_dato_fecha_estrenoError').html('&nbsp;');
+            $('.pelicula_dato_precio_unitarioError').html('&nbsp;');
+            $('.pelicula_tipo_idError').html('&nbsp;');
+            $('.pelicula_dato_sinopsisError').html('&nbsp;');
+
+            var jsonData = xhr.responseJSON;
+
+            if(jsonData !== undefined) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    if(key != '')
+                    {
+                        $('.' + key + 'Error').html(value);
+                    }
+                });
+            }
+        }
+    });
+}
+
+function filmTypeGenereSendData(btn) {
+    let modal = $( btn.data('modal') );
+    let form = $( btn.data('formulario') );
+    let route = form.attr('action');
+    let method = form.attr('method');
+
+    $.ajax({
+        url: route,
+        type: method,
+        dataType: 'JSON',
         data: form.serialize(),
         success: function(data) {
             if(data.status == 'ok')
             {
                 btn.attr('disabled', false);
                 modal.modal('hide');
-                filmOrGenderGetData();
+                filmGetData();
             }
         },
         error: function(xhr, status, response) {

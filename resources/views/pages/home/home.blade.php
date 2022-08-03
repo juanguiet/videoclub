@@ -1,7 +1,7 @@
 @extends('vendor.template.master')
 
-@section('title', 'Inicio')
+@section('page-title', 'Inicio')
 
-@section('content-body')
+@section('page-content-body')
 
 @endsection

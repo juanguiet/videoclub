@@ -9,20 +9,21 @@
 <left>894</left>
 <top>412</top>
 <width>228</width>
-<height>214</height>
+<height>229</height>
 <sql_create_table>CREATE TABLE `peliculas_datos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pelicula_dato_nombre` varchar(60) NOT NULL,
   `pelicula_dato_sinopsis` text NOT NULL,
-  `pelicula_dato_unitario` float(100,2) NOT NULL,
+  `pelicula_dato_precio_unitario` float(100,2) NOT NULL,
   `pelicula_dato_fecha_estreno` date NOT NULL,
   `pelicula_tipo_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pelicula_tipo_id` (`pelicula_tipo_id`),
   CONSTRAINT `peliculas_datos_ibfk_1` FOREIGN KEY (`pelicula_tipo_id`) REFERENCES `peliculas_tipos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_generos" view="colnames">
 <left>1399</left>
@@ -35,7 +36,7 @@
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_tipos" view="colnames">
 <left>1205</left>
@@ -50,7 +51,7 @@
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_generos_datos" view="colnames">
 <left>1145</left>

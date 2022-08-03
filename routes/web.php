@@ -23,6 +23,13 @@ Route::post('filter', [HomeController::class, 'filter'])->name('home.filter');
 
 Route::prefix('films')->group(function () {
     Route::get('/', [FilmsController::class, 'index'])->name('films.index');
+    Route::get('create', [FilmsController::class, 'films_create'])->name('films.films_create');
+    Route::post('create-process', [FilmsController::class, 'films_create_process'])->name('films.films_create_process');
+    Route::get('edit/{id}', [FilmsController::class, 'films_edit'])->name('films.films_edit');
+    Route::patch('edit-process/{id}', [FilmsController::class, 'films_edit_process'])->name('films.films_edit_process');
+    Route::delete('delete/{id}', [FilmsController::class, 'films_delete'])->name('films.films_delete');
+
+    Route::get('get-data', [FilmsController::class, 'films_get_data'])->name('films.films_get_data');
 
     Route::prefix('films-type')->group(function () {
         Route::get('/', [FilmsController::class, 'films_type_list'])->name('films.films_type.films_type_list');

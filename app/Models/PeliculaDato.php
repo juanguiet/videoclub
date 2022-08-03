@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PeliculaDato extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'peliculas_datos';
 
@@ -25,8 +26,10 @@ class PeliculaDato extends Model
     ];
 
     protected $dates = [
+        'pelicula_dato_fecha_estreno',
         'created_at',
-        'updated_at'
+        'updated_at',
+        'deleted_at'
     ];
 
     // Uno a muchos
@@ -44,5 +47,24 @@ class PeliculaDato extends Model
     public function pelicula_tipo()
     {
         return $this->belongsTo(PeliculaTipo::class, 'pelicula_tipo_id', 'id');
+    }
+
+    public function scopeGetInfo($query, $id = null, $pelicula_dato_nombre = null)
+    {
+        if($id != null)
+        {
+            $query
+            ->where('id', $id);
+        }
+
+        if($pelicula_dato_nombre != null)
+        {
+            $query
+            ->where('pelicula_dato_nombre', 'LIKE', $pelicula_dato_nombre);
+        }
+
+        return $query
+                ->orderBy('pelicula_dato_nombre', 'ASC')
+                ->orderBy('pelicula_tipo_id', 'ASC');
     }
 }

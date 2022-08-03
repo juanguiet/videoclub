@@ -28,6 +28,26 @@ class FilmsRequest extends FormRequest
 
         switch($formType)
         {
+            case 'film-create':
+                return [
+                    'pelicula_dato_nombre' => 'required|max:40|unique:peliculas_datos',
+                    'pelicula_dato_fecha_estreno' => 'required|date_format:Y-m-d',
+                    'pelicula_dato_precio_unitario' => 'required|integer|min:0',
+                    'pelicula_tipo_id' => 'required|not_in:-1',
+                    'pelicula_dato_sinopsis' => 'required|min:5|max:3000',
+                ];
+            break;
+
+            case 'film-edit':
+                return [
+                    'pelicula_dato_nombre' => 'required|max:40|unique:peliculas_datos,id,' . Request::input('pelicula_dato_nombre'),
+                    'pelicula_dato_fecha_estreno' => 'required|date_format:Y-m-d',
+                    'pelicula_dato_precio_unitario' => 'required|integer|min:0',
+                    'pelicula_tipo_id' => 'required|not_in:-1',
+                    'pelicula_dato_sinopsis' => 'required|min:5|max:3000',
+                ];
+            break;
+
             case 'film-type-create':
                 return [
                     'pelicula_tipo_nombre' => 'required|max:40|unique:peliculas_tipos',

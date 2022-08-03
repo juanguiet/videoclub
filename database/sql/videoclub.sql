@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-08-2022 a las 07:29:34
+-- Tiempo de generación: 03-08-2022 a las 22:42:31
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -59,12 +59,24 @@ CREATE TABLE `peliculas_datos` (
   `id` int(11) NOT NULL,
   `pelicula_dato_nombre` varchar(60) NOT NULL,
   `pelicula_dato_sinopsis` text NOT NULL,
-  `pelicula_dato_unitario` float(100,2) NOT NULL,
+  `pelicula_dato_precio_unitario` float(100,2) NOT NULL,
   `pelicula_dato_fecha_estreno` date NOT NULL,
   `pelicula_tipo_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `peliculas_datos`
+--
+
+INSERT INTO `peliculas_datos` (`id`, `pelicula_dato_nombre`, `pelicula_dato_sinopsis`, `pelicula_dato_precio_unitario`, `pelicula_dato_fecha_estreno`, `pelicula_tipo_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Prueba', 'Es solo una prueba', 200000.00, '2022-08-03', 3, '2022-08-03 19:12:29', NULL, NULL),
+(2, 'Esta es otra', 'qaweqe', 14444.00, '2022-08-03', 3, '2022-08-03 19:12:54', NULL, NULL),
+(3, 'No más asdasd', 'asdasd', 11111.00, '2022-08-03', 4, '2022-08-03 19:13:19', '2022-08-03 20:26:33', NULL),
+(4, 'Liga de la justicia', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:24:47', NULL, NULL),
+(5, 'Mi prueba', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:25:06', '2022-08-03 20:26:14', NULL);
 
 -- --------------------------------------------------------
 
@@ -96,6 +108,14 @@ CREATE TABLE `peliculas_generos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `peliculas_generos`
+--
+
+INSERT INTO `peliculas_generos` (`id`, `pelicula_genero_nombre`, `created_at`, `updated_at`) VALUES
+(1, 'Aventura', '2022-08-03 16:52:48', NULL),
+(2, 'Ciencia ficción', '2022-08-03 16:58:43', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -119,11 +139,20 @@ CREATE TABLE `peliculas_generos_datos` (
 CREATE TABLE `peliculas_tipos` (
   `id` int(11) NOT NULL,
   `pelicula_tipo_nombre` varchar(40) NOT NULL,
-  `pelicula_tipo_dia_adicional_desde` int(11) NOT NULL,
-  `pelicula_tipo_porcent_dia_adicional` float(100,2) NOT NULL,
+  `pelicula_tipo_dia_adicional_desde` int(4) NOT NULL,
+  `pelicula_tipo_porcent_dia_adicional` int(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `peliculas_tipos`
+--
+
+INSERT INTO `peliculas_tipos` (`id`, `pelicula_tipo_nombre`, `pelicula_tipo_dia_adicional_desde`, `pelicula_tipo_porcent_dia_adicional`, `created_at`, `updated_at`) VALUES
+(3, 'Nuevos lanzamientos', 0, 0, '2022-08-03 15:42:34', '2022-08-03 16:32:36'),
+(4, 'Películas normales', 3, 15, '2022-08-03 16:33:10', NULL),
+(5, 'Películas viejas', 5, 10, '2022-08-03 16:33:36', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -197,7 +226,7 @@ ALTER TABLE `clientes_datos`
 -- AUTO_INCREMENT de la tabla `peliculas_datos`
 --
 ALTER TABLE `peliculas_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_datos_alquileres`
@@ -209,7 +238,7 @@ ALTER TABLE `peliculas_datos_alquileres`
 -- AUTO_INCREMENT de la tabla `peliculas_generos`
 --
 ALTER TABLE `peliculas_generos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_generos_datos`
@@ -221,7 +250,7 @@ ALTER TABLE `peliculas_generos_datos`
 -- AUTO_INCREMENT de la tabla `peliculas_tipos`
 --
 ALTER TABLE `peliculas_tipos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas

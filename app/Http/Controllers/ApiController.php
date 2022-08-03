@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PeliculaDato;
 use App\Models\PeliculaGenero;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -26,6 +27,13 @@ class ApiController extends Controller
 
         switch($modal_target_name)
         {
+            case 'films-delete-modal':
+                $modal = 'pages.films.components.modals.film-delete-modal';
+                $film_data = PeliculaDato::find($item_info);
+
+                $modal_view = View::make($modal, compact('modal_target_name', 'film_data'))->render();
+            break;
+
             case 'films-type-add-modal':
             case 'films-type-edit-modal':
                 $modal = 'pages.films.components.modals.type-create-modal';

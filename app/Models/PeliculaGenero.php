@@ -30,4 +30,21 @@ class PeliculaGenero extends Model
     {
         return $this->hasMany(PeliculaGeneroDato::class, 'pelicula_genero_id', 'id');
     }
+
+    public function scopeGetInfo($query, $id = null, $pelicula_genero_nombre = null)
+    {
+        if($id != null)
+        {
+            $query
+            ->where('id', $id);
+        }
+
+        if($pelicula_genero_nombre != null)
+        {
+            $query
+            ->where('pelicula_genero_nombre', $pelicula_genero_nombre);
+        }
+
+        return $query->orderBy('pelicula_genero_nombre', 'ASC');
+    }
 }

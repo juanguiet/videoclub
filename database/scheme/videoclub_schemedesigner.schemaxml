@@ -45,8 +45,8 @@
 <sql_create_table>CREATE TABLE `peliculas_tipos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `pelicula_tipo_nombre` varchar(40) NOT NULL,
-  `pelicula_tipo_dia_adicional_desde` int(11) NOT NULL,
-  `pelicula_tipo_porcent_dia_adicional` float(100,2) NOT NULL,
+  `pelicula_tipo_dia_adicional_desde` int(4) NOT NULL,
+  `pelicula_tipo_porcent_dia_adicional` int(4) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)

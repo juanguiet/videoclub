@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class FilmsRequest extends FormRequest
 {
@@ -23,8 +24,40 @@ class FilmsRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $formType = Request::input('formType');
+
+        switch($formType)
+        {
+            case 'film-type-create':
+                return [
+                    'pelicula_tipo_nombre' => 'required|max:40|unique:peliculas_tipos',
+                    'pelicula_tipo_dia_adicional_desde' => 'required|integer|min:0',
+                    'pelicula_tipo_porcent_dia_adicional' => 'required|integer|min:0|max:100',
+                ];
+            break;
+
+            case 'film-type-edit':
+                return [
+                    'pelicula_tipo_nombre' => 'required|max:40|unique:peliculas_tipos,id,' . Request::input('pelicula_tipo_nombre'),
+                    'pelicula_tipo_dia_adicional_desde' => 'required|integer|min:0',
+                    'pelicula_tipo_porcent_dia_adicional' => 'required|integer|min:0|max:100',
+                ];
+            break;
+
+
+            case 'films-gender-add':
+                return [
+                    'pelicula_genero_nombre' => 'required|max:60|unique:peliculas_generos'
+                ];
+            break;
+
+
+            case 'films-gender-edit':
+                return [
+                    'pelicula_genero_nombre' => 'required|max:60|unique:peliculas_generos,id,' . Request::input('pelicula_genero_nombre')
+                ];
+            break;
+        }
+        
     }
 }

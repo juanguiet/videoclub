@@ -31,6 +31,10 @@ $(document).on('click', '.btnAction', function(e) {
             filmSendData(btn);
         break;
 
+        case 'clients':
+            clientsUpload(btn);
+        break;
+
         case 'pelicula-tipo-genero':
             filmTypeGenereSendData(btn);
         break;
@@ -162,6 +166,51 @@ function filmTypeGenereSendData(btn) {
             $('.pelicula_tipo_dia_adicional_desdeError').html('&nbsp;');
             $('.pelicula_tipo_porcent_dia_adicionalError').html('&nbsp;');
             $('.pelicula_genero_nombreError').html('&nbsp;');
+
+            var jsonData = xhr.responseJSON;
+
+            if(jsonData !== undefined) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    if(key != '')
+                    {
+                        $('.' + key + 'Error').html(value);
+                    }
+                });
+            }
+        }
+    });
+}
+
+function clientsUpload(btn) {
+    let modal = $( btn.data('modal') );
+    let form = $( btn.data('formulario') );
+    let route = form.attr('action');
+    let method = form.attr('method');
+
+    var formData = new FormData(form[0]);
+    formData.append('formFileUploadClients', ($("#formFileUploadClients"))[0].files[0]);
+
+    $.ajax({
+        url: route,
+        type: method,
+        async: true,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'JSON',
+        data: formData,
+        success: function(data) {
+            if(data.status == 'ok')
+            {
+                btn.attr('disabled', false);
+                modal.modal('hide');
+                filmGetData();
+            }
+        },
+        error: function(xhr, status, response) {
+            btn.attr('disabled', false);
+
+            $('.pelicula_tipo_nombreError').html('&nbsp;');
 
             var jsonData = xhr.responseJSON;
 

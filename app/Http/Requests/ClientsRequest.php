@@ -13,7 +13,7 @@ class ClientsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class ClientsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'formFileUploadClients' => 'required|mimes:xls,xlsx'
         ];
     }
 }

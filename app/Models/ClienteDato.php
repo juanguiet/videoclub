@@ -33,4 +33,35 @@ class ClienteDato extends Model
         return $this->hasMany(Alquiler::class, 'cliente_dato_id', 'id');
     }
 
+    public function scopeGetInfo($query, $id = null, $cliente_dato_num_identificacion = null, $cliente_dato_nombres = null, $cliente_dato_apellidos = null)
+    {
+        if($id != null)
+        {
+            $query
+            ->where('id', $id);
+        }
+
+        if($cliente_dato_num_identificacion != null)
+        {
+            $query
+            ->where('cliente_dato_num_identificacion', $cliente_dato_num_identificacion);
+        }
+
+        if($cliente_dato_nombres != null)
+        {
+            $query
+            ->where('cliente_dato_nombres', 'LIKE', $cliente_dato_nombres);
+        }
+
+        if($cliente_dato_apellidos != null)
+        {
+            $query
+            ->where('cliente_dato_apellidos', 'LIKE', $cliente_dato_apellidos);
+        }
+
+        return $query
+                ->orderBy('cliente_dato_nombres', 'ASC')
+                ->orderBy('cliente_dato_apellidos', 'ASC');
+    }
+
 }

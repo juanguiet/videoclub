@@ -62,6 +62,12 @@ class ApiController extends Controller
                 $modal_view = View::make($modal, compact('modal_target_name', 'film_gender'))->render();
             break;
 
+            case 'clients-upload-modal':
+                $modal = 'pages.clients.components.modals.client-upload-modal';
+
+                $modal_view = View::make($modal, compact('modal_target_name'))->render();
+            break;
+
             default:
                 $modal = 'vendor.messages.opcion-invalida';
 

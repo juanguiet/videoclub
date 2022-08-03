@@ -57,6 +57,8 @@ Route::prefix('rental')->group(function () {
 Route::prefix('clients')->group(function () {
     Route::get('/', [ClientsController::class, 'index'])->name('clients.index');
     Route::post('import', [ClientsController::class, 'import'])->name('clients.import');
+
+    Route::get('get-clients', [ClientsController::class, 'get_clients'])->name('clients.get_clients');
 });
 
 Route::group(['prefix' => 'helpers'], function () {

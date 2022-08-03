@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8mb4" collation="utf8mb4_general_ci">videoclub</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="peliculas_datos" view="colnames">
+<left>894</left>
+<top>412</top>
+<width>228</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `peliculas_datos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pelicula_dato_nombre` varchar(60) NOT NULL,
+  `pelicula_dato_sinopsis` text NOT NULL,
+  `pelicula_dato_unitario` float(100,2) NOT NULL,
+  `pelicula_dato_fecha_estreno` date NOT NULL,
+  `pelicula_tipo_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pelicula_tipo_id` (`pelicula_tipo_id`),
+  CONSTRAINT `peliculas_datos_ibfk_1` FOREIGN KEY (`pelicula_tipo_id`) REFERENCES `peliculas_tipos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="peliculas_generos" view="colnames">
+<left>1399</left>
+<top>284</top>
+<width>208</width>
+<height>146</height>
+<sql_create_table>CREATE TABLE `peliculas_generos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pelicula_genero_nombre` varchar(60) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="peliculas_tipos" view="colnames">
+<left>1205</left>
+<top>497</top>
+<width>269</width>
+<height>197</height>
+<sql_create_table>CREATE TABLE `peliculas_tipos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pelicula_tipo_nombre` varchar(40) NOT NULL,
+  `pelicula_tipo_dia_adicional_desde` int(11) NOT NULL,
+  `pelicula_tipo_porcent_dia_adicional` float(100,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="peliculas_generos_datos" view="colnames">
+<left>1145</left>
+<top>250</top>
+<width>197</width>
+<height>163</height>
+<sql_create_table>CREATE TABLE `peliculas_generos_datos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pelicula_dato_id` int(11) NOT NULL,
+  `pelicula_genero_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pelicula_dato_id` (`pelicula_dato_id`),
+  KEY `pelicula_genero_id` (`pelicula_genero_id`),
+  CONSTRAINT `peliculas_generos_datos_ibfk_1` FOREIGN KEY (`pelicula_dato_id`) REFERENCES `peliculas_datos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `peliculas_generos_datos_ibfk_2` FOREIGN KEY (`pelicula_genero_id`) REFERENCES `peliculas_generos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="clientes_datos" view="colnames">
+<left>564</left>
+<top>545</top>
+<width>262</width>
+<height>180</height>
+<sql_create_table>CREATE TABLE `clientes_datos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cliente_dato_num_identificacion` varchar(20) NOT NULL,
+  `cliente_dato_nombres` varchar(60) NOT NULL,
+  `cliente_dato_apellidos` varchar(60) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="alquileres" view="colnames">
+<left>301</left>
+<top>313</top>
+<width>239</width>
+<height>146</height>
+<sql_create_table>CREATE TABLE `alquileres` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cliente_dato_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cliente_dato_id` (`cliente_dato_id`),
+  CONSTRAINT `alquileres_ibfk_1` FOREIGN KEY (`cliente_dato_id`) REFERENCES `clientes_datos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+<table name="peliculas_datos_alquileres" view="colnames">
+<left>625</left>
+<top>296</top>
+<width>246</width>
+<height>214</height>
+<sql_create_table>CREATE TABLE `peliculas_datos_alquileres` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alquiler_id` int(11) NOT NULL,
+  `pelicula_dato_id` int(11) NOT NULL,
+  `pelicula_dato_alquiler_fecha_inicio` date NOT NULL,
+  `pelicula_dato_alquiler_fecha_fin` date NOT NULL,
+  `pelicula_dato_alquiler_valor_pagar` float(100,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `pelicula_dato_id` (`pelicula_dato_id`),
+  KEY `alquiler_id` (`alquiler_id`),
+  CONSTRAINT `peliculas_datos_alquileres_ibfk_1` FOREIGN KEY (`pelicula_dato_id`) REFERENCES `peliculas_datos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `peliculas_datos_alquileres_ibfk_2` FOREIGN KEY (`alquiler_id`) REFERENCES `alquileres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>

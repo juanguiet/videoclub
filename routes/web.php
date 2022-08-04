@@ -50,15 +50,23 @@ Route::prefix('films')->group(function () {
     });
 });
 
-Route::prefix('rental')->group(function () {
-    Route::get('/', [RentalsController::class, 'index'])->name('rental.rental_list');
-});
-
 Route::prefix('clients')->group(function () {
     Route::get('/', [ClientsController::class, 'index'])->name('clients.index');
     Route::post('import', [ClientsController::class, 'import'])->name('clients.import');
 
     Route::get('get-clients', [ClientsController::class, 'get_clients'])->name('clients.get_clients');
+});
+
+Route::prefix('rental')->group(function () {
+    Route::get('/', [RentalsController::class, 'index'])->name('rental.rental_list');
+    Route::get('new-rental', [RentalsController::class, 'rentals_create'])->name('rental.rentals_create');
+    Route::post('create-process', [RentalsController::class, 'rentals_create_process'])->name('rental.rentals_create_process');
+    Route::get('edit/{id}', [RentalsController::class, 'rentals_edit'])->name('rental.rentals_edit');
+    Route::patch('edit-process/{id}', [RentalsController::class, 'rentals_edit_process'])->name('rental.rentals_edit_process');
+    Route::delete('delete/{id}', [RentalsController::class, 'rentals_delete'])->name('rental.rentals_delete');
+
+    Route::get('get-rentals', [RentalsController::class, 'get_rentals'])->name('rental.get_rentals');
+    Route::get('search-client', [RentalsController::class, 'get_search_client'])->name('rental.get_search_client');
 });
 
 Route::group(['prefix' => 'helpers'], function () {

@@ -36,4 +36,21 @@ class Alquiler extends Model
     {
         return $this->belongsTo(ClienteDato::class, 'cliente_dato_id', 'id');
     }
+
+    public function scopeGetInfo($query, $id = null, $cliente_dato_id = null)
+    {
+        if($id != null)
+        {
+            $query
+            ->where('id', $id);
+        }
+
+        if($cliente_dato_id != null)
+        {
+            $query
+            ->where('cliente_dato_id', $cliente_dato_id);
+        }
+
+        return $query;
+    }
 }

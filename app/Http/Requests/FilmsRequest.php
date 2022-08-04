@@ -35,6 +35,7 @@ class FilmsRequest extends FormRequest
                     'pelicula_dato_precio_unitario' => 'required|integer|min:0',
                     'pelicula_tipo_id' => 'required|not_in:-1',
                     'pelicula_dato_sinopsis' => 'required|min:5|max:3000',
+                    'peliculas_generos_datos' => 'required|array',
                 ];
             break;
 
@@ -45,6 +46,7 @@ class FilmsRequest extends FormRequest
                     'pelicula_dato_precio_unitario' => 'required|integer|min:0',
                     'pelicula_tipo_id' => 'required|not_in:-1',
                     'pelicula_dato_sinopsis' => 'required|min:5|max:3000',
+                    'peliculas_generos_datos' => 'required|array',
                 ];
             break;
 

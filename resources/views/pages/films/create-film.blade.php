@@ -32,13 +32,9 @@
             <div class="col-12">
                 <hr />
             </div>
-
-            <div class="col-12 mt-5">
-                <legend>Datos de la película</legend>
-            </div>
         </div>
         
-        <form action="{{ route('films.films_create_process') }}" method="POST" id="frmData" class="mt-4">
+        <form action="{{ route('films.films_create_process') }}" method="POST" id="frmData" class="mt-2">
             <input type="hidden" name="formType" id="formType" value="film-create">
             @include('pages.films.components.forms.films-form')
         </form>

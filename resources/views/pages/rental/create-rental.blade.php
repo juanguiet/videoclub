@@ -1,6 +1,6 @@
 @extends('vendor.template.master')
 
-@section('page-title', 'Editar')
+@section('page-title', 'Nuevo alquiler')
 
 @section('page-content-breadcrumb')
     <div class="mt-3">
@@ -10,7 +10,7 @@
                     <a href="{{ route('home.index') }}">Inicio</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <a href="{{ route('films.index') }}">Películas</a>
+                    <a href="{{ route('rental.rental_list') }}">Alquiler</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">@yield('page-title')</li>
             </ol>
@@ -23,7 +23,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <a href="{{ route('films.index') }}" class="btn btn-link">
+                <a href="{{ route('rental.rental_list') }}" class="btn btn-link">
                     <i class="fa fa-solid fa-arrow-left"></i>
                     Regresar
                 </a>
@@ -34,15 +34,15 @@
             </div>
         </div>
         
-        <form action="{{ route('films.films_edit_process', [$film_data->id]) }}" method="PATCH" id="frmData" class="mt-2">
-            <input type="hidden" name="formType" id="formType" value="film-edit">
-            @include('pages.films.components.forms.films-form')
+        <form action="{{ route('films.films_create_process') }}" method="POST" id="frmData" class="mt-2">
+            <input type="hidden" name="formType" id="formType" value="film-create">
+            @include('pages.rental.components.forms.rental-form')
         </form>
 
         <div class="row mt-4">
             <div class="col-12">
                 <button class="btn btn-info btnAction" data-accion="pelicula-dato" data-formulario="#frmData">
-                    Editar
+                    Alquilar
                 </button>
             </div>
         </div>

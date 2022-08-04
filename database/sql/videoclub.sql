@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-08-2022 a las 22:42:31
+-- Tiempo de generación: 04-08-2022 a las 13:47:44
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -49,6 +49,14 @@ CREATE TABLE `clientes_datos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `clientes_datos`
+--
+
+INSERT INTO `clientes_datos` (`id`, `cliente_dato_num_identificacion`, `cliente_dato_nombres`, `cliente_dato_apellidos`, `created_at`, `updated_at`) VALUES
+(10, '123', 'Prueba 1', 'Prueba Apellido 1', '2022-08-03 23:47:10', '2022-08-03 23:47:10'),
+(11, '321', 'Prueba 2', 'Prueba Apellido 2', '2022-08-03 23:47:10', '2022-08-03 23:47:10');
+
 -- --------------------------------------------------------
 
 --
@@ -73,10 +81,13 @@ CREATE TABLE `peliculas_datos` (
 
 INSERT INTO `peliculas_datos` (`id`, `pelicula_dato_nombre`, `pelicula_dato_sinopsis`, `pelicula_dato_precio_unitario`, `pelicula_dato_fecha_estreno`, `pelicula_tipo_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Prueba', 'Es solo una prueba', 200000.00, '2022-08-03', 3, '2022-08-03 19:12:29', NULL, NULL),
-(2, 'Esta es otra', 'qaweqe', 14444.00, '2022-08-03', 3, '2022-08-03 19:12:54', NULL, NULL),
-(3, 'No más asdasd', 'asdasd', 11111.00, '2022-08-03', 4, '2022-08-03 19:13:19', '2022-08-03 20:26:33', NULL),
+(2, 'Esta es otra', 'qaweqe', 14444.00, '2022-08-03', 5, '2022-08-03 19:12:54', '2022-08-03 23:52:35', NULL),
+(3, 'No más asdasd', 'asdasd', 11111.00, '2022-08-04', 4, '2022-08-03 19:13:19', '2022-08-04 11:36:21', NULL),
 (4, 'Liga de la justicia', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:24:47', NULL, NULL),
-(5, 'Mi prueba', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:25:06', '2022-08-03 20:26:14', NULL);
+(5, 'Mi prueba', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:25:06', NULL, NULL),
+(6, 'asdasd', 'asdaaaa', 1111.00, '2022-08-04', 4, '2022-08-03 21:03:12', '2022-08-04 11:36:13', NULL),
+(7, 'Liga de la justicia joven', 'Es una serie animada', 200000.00, '2022-08-03', 3, '2022-08-04 00:44:06', '2022-08-04 00:48:13', NULL),
+(8, 'ad', 'asdasd', 123.00, '2022-08-04', 4, '2022-08-04 11:36:00', '2022-08-04 11:36:06', '2022-08-04 11:36:06');
 
 -- --------------------------------------------------------
 
@@ -130,6 +141,20 @@ CREATE TABLE `peliculas_generos_datos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Volcado de datos para la tabla `peliculas_generos_datos`
+--
+
+INSERT INTO `peliculas_generos_datos` (`id`, `pelicula_dato_id`, `pelicula_genero_id`, `created_at`, `updated_at`) VALUES
+(2, 7, 1, '2022-08-04 00:55:25', NULL),
+(3, 7, 2, '2022-08-04 00:55:25', NULL),
+(10, 4, 1, '2022-08-04 01:01:48', NULL),
+(11, 8, 1, '2022-08-04 11:36:00', NULL),
+(12, 8, 2, '2022-08-04 11:36:00', NULL),
+(13, 6, 2, '2022-08-04 11:36:13', NULL),
+(14, 3, 1, '2022-08-04 11:36:21', NULL),
+(15, 3, 2, '2022-08-04 11:36:21', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -169,7 +194,8 @@ ALTER TABLE `alquileres`
 -- Indices de la tabla `clientes_datos`
 --
 ALTER TABLE `clientes_datos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `cliente_dato_num_identificacion` (`cliente_dato_num_identificacion`);
 
 --
 -- Indices de la tabla `peliculas_datos`
@@ -220,13 +246,13 @@ ALTER TABLE `alquileres`
 -- AUTO_INCREMENT de la tabla `clientes_datos`
 --
 ALTER TABLE `clientes_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_datos`
 --
 ALTER TABLE `peliculas_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_datos_alquileres`
@@ -244,7 +270,7 @@ ALTER TABLE `peliculas_generos`
 -- AUTO_INCREMENT de la tabla `peliculas_generos_datos`
 --
 ALTER TABLE `peliculas_generos_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_tipos`

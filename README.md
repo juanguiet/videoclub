@@ -21,6 +21,7 @@ Se especifican las herramientas y tecnologías usadas para el desarrollo del pro
 
 - PHP 8.0
 - MySQL
+- Composer
 - Laravel framework 9
 - Visual Studio Code
 - JMeter
@@ -35,11 +36,9 @@ Se debe tener las siguientes tecnologías y herramientas instaladas en en el ent
 | Requiere      |  |
 |---------------| ------ |
 | Git                                             | https://git-scm.com/downloads |
-| XAMPP <br>
- (Tener en cuenta la versión mínima de PHP 8.0)   | https://www.apachefriends.org/download.html |
+| XAMPP <small>(Tener en cuenta la versión mínima de PHP 8.0)<small>   | https://www.apachefriends.org/download.html |
 | Composer                                        | https://getcomposer.org/download/ |
 | VS Code                                         | https://code.visualstudio.com/download |
-| JMeter                                          | https://jmeter.apache.org/download_jmeter.cgi |
 | Postman                                         | https://www.postman.com/downloads/ |
 
 <br>
@@ -48,20 +47,60 @@ Se debe tener las siguientes tecnologías y herramientas instaladas en en el ent
 
 Para la ejecución del proyecto se van a especificar los siguientes pasos:
 
-### 2. Abrir xampp
+### 1. Abrir xampp
 
-### 3. Descarga proyecto repositorio
+Una vez abierto el XAMPP, buscamos el archivo php.ini, luego dentro del archivo buscamos la extensión gd (extension=gd) que esta comentada, la vamos a descomentar quitando el ;. Luego se inicia el servicio de MySQL. 
 
-Abrimos la consola "git bash" y nos dirigimos la ruta donde se quiere guardar el proyecto, una vez en la ruta copiamos y pegamos la siguiente linea en la consola de git:
+### 2. Descarga proyecto repositorio y de dependencias
+
+Abrir la consola "git bash" y nos dirigimos la ruta donde se quiere guardar el proyecto, una vez en la ruta copiamos y pegamos la siguiente línea en la consola de git:
 
 ```sh
 $ git clone https://github.com/juanguiet/videoclub.git
 ```
 
-### 4. Descarga de dependencias de Laravel
-
-Luego abrir el proyecto una vez clonado con el IDE o editor de código de preferencia. Luego abrir la terminal y escribir el siguiente comando
+Una vez descargado navegamos hasta la carpeta del protecto.
 
 ```sh
-$ composer update
+$ cd videoclub
+```
+
+Una vez en la carpeta raíz del proyecto se ejecuta el comando
+
+```sh
+$ Composer update
+```
+
+### 3. Crear base de datos y exportar
+
+En la shell que provee XAMPP (Hacer click ene l botón ubicado en la parte derecha con el nombre Shell) la abrimos y nos autenticamos con el comando 
+
+```sh
+$ mysql -u root
+```
+
+Luego de estar autenticados vamos a crear la base con el siguiente comando
+
+```sh
+$ CREATE DATABASE videoclub
+```
+
+Ahora seleccionamos la base de datos con el comando
+
+```sh
+$ USE prueba
+```
+
+Por último exportamos la base de datos ejecutando el comando. El `<path>` es la ruta donde esta alojado el proyecto.
+
+```sh
+$ SOURCE <path>/videoclub/database/sql/videoclub.sql
+```
+
+### 4. Ejecutar el proyecto
+
+Una vez el servicio de MySQL se este ejecutando, levantamos el servicio de laravel, para ello en la carpeta raíz del proyecto ejecutamos el siguiente comando en la terminal.
+
+```sh
+$ php artisan serve
 ```

@@ -38,6 +38,10 @@ $(document).on('click', '.btnAction', function(e) {
         case 'pelicula-tipo-genero':
             filmTypeGenereSendData(btn);
         break;
+
+        case 'rental-add-client':
+            rentalClientAdd(btn);
+        break;
     }
 });
 
@@ -131,6 +135,7 @@ function filmSendData(btn) {
             $('.pelicula_dato_precio_unitarioError').html('&nbsp;');
             $('.pelicula_tipo_idError').html('&nbsp;');
             $('.pelicula_dato_sinopsisError').html('&nbsp;');
+            $('.peliculas_generos_datosError').html('&nbsp;');
 
             var jsonData = xhr.responseJSON;
 
@@ -188,6 +193,51 @@ function filmTypeGenereSendData(btn) {
 }
 
 function clientsUpload(btn) {
+    let modal = $( btn.data('modal') );
+    let form = $( btn.data('formulario') );
+    let route = form.attr('action');
+    let method = form.attr('method');
+
+    var formData = new FormData(form[0]);
+    formData.append('formFileUploadClients', ($("#formFileUploadClients"))[0].files[0]);
+
+    $.ajax({
+        url: route,
+        type: method,
+        async: true,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: 'JSON',
+        data: formData,
+        success: function(data) {
+            if(data.status == 'ok')
+            {
+                btn.attr('disabled', false);
+                modal.modal('hide');
+                filmGetData();
+            }
+        },
+        error: function(xhr, status, response) {
+            btn.attr('disabled', false);
+
+            $('.pelicula_tipo_nombreError').html('&nbsp;');
+
+            var jsonData = xhr.responseJSON;
+
+            if(jsonData !== undefined) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    if(key != '')
+                    {
+                        $('.' + key + 'Error').html(value);
+                    }
+                });
+            }
+        }
+    });
+}
+
+function rentalClientAdd(btn) {
     let modal = $( btn.data('modal') );
     let form = $( btn.data('formulario') );
     let route = form.attr('action');

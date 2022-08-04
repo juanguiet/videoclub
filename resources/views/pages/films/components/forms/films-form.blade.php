@@ -1,4 +1,11 @@
 <div class="row">
+    <div class="col-12 mt-2">
+        <legend>Datos de la película</legend>
+        <p>Ingrese los datos de la película. Los campos con * son obligatorios</p>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-12">
         <div class="form-floating mb-3">
             <input type="text" class="form-control" name="pelicula_dato_nombre" id="pelicula_dato_nombre" placeholder="Ingrese el nombre de película" value="{{ old('pelicula_dato_nombre', $film_data->pelicula_dato_nombre) }}" autocomplete="off">
@@ -51,7 +58,15 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-12 mt-4">
+        <legend>Géneros de la película</legend>
+        <p>Seleccione los géneros a los que pertenece la película. Seleccione por lo menos 1 género.</p>
+    </div>
+</div>
+
 <div class="row mt-2">
+    <span class="has-error peliculas_generos_datosError"></span>
     @foreach($film_genders as $film_gender)
         <div class="col-sm-12 col-md-6">
             <div class="form-check form-switch">

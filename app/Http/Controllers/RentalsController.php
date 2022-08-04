@@ -10,7 +10,6 @@ use App\Models\PeliculaDatoAlquiler;
 use Illuminate\Support\Facades\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
 
 class RentalsController extends Controller
 {
@@ -91,14 +90,19 @@ class RentalsController extends Controller
 
         if(count(Session::get('films')) == 0 || Session::get('films') == null)
         {
-            return response()->json(
-                [
-                    'status' => 'ok',
-                    'message' => $msg,
-                    'total' => count(Session::get('films')),
-                    'mensajeCesta' => View::make('pages.rental.messages.empty-films-selected')->render()
-                ], 200
-            );
+            if($ajax === 'ajax')
+            {
+                return response()->json(
+                    [
+                        'status' => 'ok',
+                        'message' => 'No hay películas agregadas',
+                        'total' => count(Session::get('films')),
+                        'view' => View::make('pages.rental.messages.empty-films-selected')->render()
+                    ], 200
+                );
+            }
+
+            return View::make('pages.rental.messages.empty-films-selected');
         }
 
         $total_pay = 0;
@@ -135,9 +139,26 @@ class RentalsController extends Controller
 
         if($film_data)
         {
-            $film_data->pelicula_dato_alquiler_fecha_inicio = "";
-            $film_data->pelicula_dato_alquiler_fecha_fin = "";
-            $film_data->pelicula_dato_alquiler_valor_pagar = $film_data->pelicula_dato_precio_unitario;
+            if(find_by_data($films, 'id', $film_id))
+            {
+                $msg = 'Película ' . $film_name . ' esta en la lista';
+
+                return response()->json(
+                    [
+                        'status' => 'find',
+                        'message' => $msg,
+                        'erros' => [
+                            'pelicula_dato' => $msg
+                        ]
+                    ], 422
+                );
+            }
+
+            $film_data->pelicula_dato_alquiler_fecha_inicio = fecha_actual()->format('Y-m-d');
+            $film_data->pelicula_dato_alquiler_fecha_fin = fecha_actual()->addDays(1)->format('Y-m-d');
+            $film_data->pelicula_dato_alquiler_num_dias = countDaysDiferent($film_data->pelicula_dato_alquiler_fecha_inicio, $film_data->pelicula_dato_alquiler_fecha_fin);
+            $film_data->pelicula_dato_alquiler_valor_sub_total = 0;
+            $film_data->pelicula_dato_alquiler_valor_pagar = 0;
     
             $films[$film_data->id] = $film_data;
             Session::put('films', $films);
@@ -148,10 +169,34 @@ class RentalsController extends Controller
             [
                 'status' => 'ok',
                 'message' => $msg,
-                'total' => count(Session::get('films')),
-                'view' => $this->film_view_added()->render(),
-                'data' => $film_data
+                'view' => $this->film_view_added()->render()
             ], 200
+        );
+    }
+
+    public function film_change_dates(RentalsRequest $request)
+    {
+        $films = Session::get('films');
+        $film_id = $request->input('pelicula_dato');
+        $txt_pelicula_dato_alquiler_fecha_inicio = $request->input('pelicula_dato_alquiler_fecha_inicio');
+        $txt_pelicula_dato_alquiler_fecha_fin = $request->input('pelicula_dato_alquiler_fecha_fin');
+
+        $film_data = $films[$film_id];
+        $film_data->pelicula_dato_alquiler_fecha_inicio = $txt_pelicula_dato_alquiler_fecha_inicio;
+        $film_data->pelicula_dato_alquiler_fecha_fin = $txt_pelicula_dato_alquiler_fecha_fin;
+        $film_data->pelicula_dato_alquiler_num_dias = countDaysDiferent($film_data->pelicula_dato_alquiler_fecha_inicio, $film_data->pelicula_dato_alquiler_fecha_fin);
+        $film_data->pelicula_dato_alquiler_valor_sub_total = 0;
+        $film_data->pelicula_dato_alquiler_valor_pagar = 0;
+
+        $films[$film_id] = $film_data;
+        Session::put('films', $films);
+
+        return response()->json(
+            [
+                'status' => 'ok',
+                'message' => 'Fechas actualizadas',
+                'view' => $this->film_view_added()->render(),
+            ]
         );
     }
 
@@ -165,7 +210,6 @@ class RentalsController extends Controller
             [
                 'status' => 'ok',
                 'message' => 'Película eliminada',
-                'total' => count(Session::get('films')),
                 'view' => $this->film_view_added()->render(),
             ], 200
         );
@@ -189,28 +233,13 @@ class RentalsController extends Controller
                 $total_pagar += ($total[$cestas->id]->valorunitario * $total[$cestas->id]->cantidad);
             }
 
-            return \Response::json(
+            return response()->json(
                 [
                     'mensaje' => 'Cantidad del producto actualizada',
                     'total' => count(Session::get('films')),
                     'total_costo_prodc' => ($valor_unitario * $cantidad),
                     'producto' => $producto,
                     'totalpagar' => $total_pagar
-                ]
-            );
-        }
-    }
-
-    public function totalo_productos(RentalsRequest $request)
-    {
-        if($request->ajax())
-        {
-            return \Response::json(
-                [
-                    'mensaje' => 'Cesta vacio',
-                    'total' => count(Session::get('films')),
-                    'mensajeCesta' => '<div class="text-center"><div class="banda-espacio-1"><img src="' . asset("contenidos/image/app/shoppingcart-big.png") . '" alt="cesta" class="img-responseive">
-                                        </div><div class="col-md-6 col-md-offset-3"><span class="titulo-6"><strong>¡No hay productos agregados a la cesta de compras!</strong></span></div><div class="banda-espacio-2 col-md-8 col-md-offset-2">Busca los productos en las diferentes plazas de mercado segun el municipio de preferecia y agrega los productos que te ofrece cada comerciante</div></div>'
                 ]
             );
         }

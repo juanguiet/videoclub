@@ -33,6 +33,13 @@ class RentalsRequest extends FormRequest
                     'pelicula_dato' => 'required'
                 ];
             break;
+
+            case 'rental-update-film':
+                return [
+                    'pelicula_dato_alquiler_fecha_inicio' => 'required|date_format:Y-m-d',
+                    'pelicula_dato_alquiler_fecha_fin' => 'required|date_format:Y-m-d',
+                ];
+            break;
         }
     }
 }

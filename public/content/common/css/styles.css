@@ -13,6 +13,14 @@
     text-overflow: ellipsis; 
 }
 
+.color-red {
+    color: #b64a4a !important;
+}
+
 .width-full {
     width: 100% !important;
+}
+
+.width-200 {
+    width: 200px !important;
 }

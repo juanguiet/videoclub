@@ -1,5 +1,12 @@
 <?php
 
+use Carbon\Carbon;
+
+function fecha_actual()
+{
+    return Carbon::now();
+}
+
 function mounth($mes)
 {
     switch($mes)
@@ -54,15 +61,23 @@ function mounth($mes)
     }
 }
 
-function find_by_id_queals($collections, $id_to_search)
+function find_by_data($collections, $collection_fiel_search, $data_to_search)
 {
     foreach($collections as $collection)
     {
-        if($collection->pelicula_genero_id === $id_to_search)
+        if($collection[$collection_fiel_search] == $data_to_search)
             return true;
     }
 
     return false;
+}
+
+function countDaysDiferent($start_date, $end_date)
+{
+    $to = Carbon::parse($start_date);
+    $from = Carbon::parse($end_date);
+
+    return $to->diffInDays($from);
 }
 
 ?>

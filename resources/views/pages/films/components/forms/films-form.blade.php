@@ -70,7 +70,7 @@
     @foreach($film_genders as $film_gender)
         <div class="col-sm-12 col-md-6">
             <div class="form-check form-switch">
-                <input class="form-check-input" name="chkFilmGender[]" type="checkbox" id="flexSwitchCheckChecked{{ $film_gender->id }}" class="chkFilmGender" value="{{ $film_gender->id }}" @if(count($film_data->peliculas_generos_datos) > 0) {{ find_by_id_queals($film_data->peliculas_generos_datos, $film_gender->id) ? 'checked' : '' }} @endif>
+                <input class="form-check-input" name="chkFilmGender[]" type="checkbox" id="flexSwitchCheckChecked{{ $film_gender->id }}" class="chkFilmGender" value="{{ $film_gender->id }}" @if(count($film_data->peliculas_generos_datos) > 0) {{ find_by_data($film_data->peliculas_generos_datos, 'pelicula_genero_id', $film_gender->id) ? 'checked' : '' }} @endif>
                 <label class="form-check-label" for="flexSwitchCheckChecked{{ $film_gender->id }}">{{ $film_gender->pelicula_genero_nombre }}</label>
             </div>
         </div>

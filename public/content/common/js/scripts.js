@@ -32,6 +32,7 @@ $(document).on('click', '.btnAction', function(e) {
             rentalFilmAdd(btn);
         break;
 
+        case 'rental-update-film':
         case 'rental-action-table-film':
             rentalFilmActionsTable(btn);
         break;
@@ -83,7 +84,7 @@ function filmGetData() {
                     $($(routeLoadData).data('target') + ' div').remove();
                     $($(routeLoadData).data('target')).html(data.view);
 
-                    dataPicker;
+                    dataPicker();
                 }
             },
             error: function(xhr, status, response) {
@@ -264,6 +265,7 @@ function rentalFilmAdd(btn) {
             $('.pelicula_datoError').html('&nbsp;');
 
             var jsonData = xhr.responseJSON;
+            console.log(jsonData);
 
             if(jsonData !== undefined) {
                 $.each(xhr.responseJSON.errors, function (key, value) {
@@ -280,22 +282,30 @@ function rentalFilmAdd(btn) {
 function rentalFilmActionsTable(btn) {
     let route = btn.data('route');
     let method = 'POST';
+    let peliculaDato = btn.data('pelicula-dato');
 
     $.ajax({
         url: route,
         type: method,
         dataType: 'JSON',
         data: {
+            pelicula_dato_alquiler_fecha_inicio: $('#pelicula_dato_alquiler_fecha_inicio' + peliculaDato).val(),
+            pelicula_dato_alquiler_fecha_fin: $('#pelicula_dato_alquiler_fecha_fin' + peliculaDato).val(),
             formType: btn.data('accion'),
-            pelicula_dato: btn.data('pelicula-dato')
+            pelicula_dato: peliculaDato
         },
         success: function(data) {
+            $('.pelicula_dato_alquiler_fecha_inicio' + peliculaDato + 'Error').html('&nbsp;');
+            $('.pelicula_dato_alquiler_fecha_fin' + peliculaDato + 'Error').html('&nbsp;');
+
             if(data.status == 'ok')
             {
                 $(btn.data('target') + ' div').remove();
                 $(btn.data('target')).html(data.view);
 
                 dataPicker();
+            } else if(data.status == 'find') {
+
             }
 
             btn.attr('disabled', false);
@@ -303,13 +313,16 @@ function rentalFilmActionsTable(btn) {
         error: function(xhr, status, response) {
             btn.attr('disabled', false);
 
+            $('.pelicula_dato_alquiler_fecha_inicio' + peliculaDato + 'Error').html('&nbsp;');
+            $('.pelicula_dato_alquiler_fecha_fin' + peliculaDato + 'Error').html('&nbsp;');
+
             var jsonData = xhr.responseJSON;
 
             if(jsonData !== undefined) {
                 $.each(xhr.responseJSON.errors, function (key, value) {
                     if(key != '')
                     {
-                        $('.' + key + 'Error').html(value);
+                        $('.' + key + peliculaDato + 'Error').html(value);
                     }
                 });
             }
@@ -342,7 +355,6 @@ function abrirModal(btn) {
 
 function dataPicker() {
     let dataPicker = $('.selectDate');
-    console.log(dataPicker);
 
     if(dataPicker.length > 0) {
         dataPicker.daterangepicker({

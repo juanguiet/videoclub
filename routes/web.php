@@ -69,7 +69,7 @@ Route::prefix('rental')->group(function () {
 
     Route::get('film-view-data-added/{param}', [RentalsController::class, 'film_view_added'])->name('rental.film_view_added');
     Route::post('film-add', [RentalsController::class, 'film_add'])->name('rental.film_add');
-    Route::post('film-update', [RentalsController::class, 'film_update'])->name('rental.film_update');
+    Route::post('film-change-dates', [RentalsController::class, 'film_change_dates'])->name('rental.film_change_dates');
     Route::get('film-price-total', [RentalsController::class, 'film_price_total'])->name('rental.film_price_total');
     Route::post('film-remove', [RentalsController::class, 'film_remove'])->name('rental.film_remove');
 

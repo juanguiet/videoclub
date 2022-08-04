@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
 
 class RentalsRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class RentalsRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +24,15 @@ class RentalsRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+        $formType = Request::input('formType');
+
+        switch($formType)
+        {
+            case 'rental-add-film':
+                return [
+                    'pelicula_dato' => 'required'
+                ];
+            break;
+        }
     }
 }

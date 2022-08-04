@@ -36,17 +36,16 @@
         
         <form action="{{ route('films.films_create_process') }}" method="POST" id="frmData" class="mt-2">
             <input type="hidden" name="formType" id="formType" value="film-create">
-            @include('pages.rental.components.forms.rental-form')
-        </form>
+            @include('pages.rental.components.forms.rental-client-films-form')
 
-        <div class="row mt-4">
-            <div class="col-12">
-                <button class="btn btn-info btnAction" data-accion="pelicula-dato" data-formulario="#frmData">
-                    Alquilar
-                </button>
+            <div class="row">
+                <div class="col-12 mt-2" id="tableDataFilms"></div>
             </div>
-        </div>
+        </form>
     </div>
+
+    <input type="hidden" id="getData" value="{{ route('rental.film_view_added', ['ajax']) }}" data-target="#tableDataFilms" />
+    <input type="hidden" id="viewLoading" value="{{ $view_load }}" />
 
 @endsection
 

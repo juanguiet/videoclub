@@ -1,17 +1,6 @@
 $(document).ready(function() {
-    let dataPicker = $('.selectDate');
-
-    if(dataPicker.length > 0) {
-        dataPicker.daterangepicker({
-            singleDatePicker: true,
-            startDate: moment().subtract(0, 'days'),
-            locale: {
-                format: 'YYYY-MM-DD'
-            }
-        });
-    }
-
     filmGetData();
+    dataPicker();
 });
 
 $(document).on('click', '.btnAction', function(e) {
@@ -39,8 +28,12 @@ $(document).on('click', '.btnAction', function(e) {
             filmTypeGenereSendData(btn);
         break;
 
-        case 'rental-add-client':
-            rentalClientAdd(btn);
+        case 'rental-add-film':
+            rentalFilmAdd(btn);
+        break;
+
+        case 'rental-action-table-film':
+            rentalFilmActionsTable(btn);
         break;
     }
 });
@@ -89,6 +82,8 @@ function filmGetData() {
                 if(data.status == 'ok') {
                     $($(routeLoadData).data('target') + ' div').remove();
                     $($(routeLoadData).data('target')).html(data.view);
+
+                    dataPicker;
                 }
             },
             error: function(xhr, status, response) {
@@ -237,36 +232,76 @@ function clientsUpload(btn) {
     });
 }
 
-function rentalClientAdd(btn) {
-    let modal = $( btn.data('modal') );
-    let form = $( btn.data('formulario') );
-    let route = form.attr('action');
-    let method = form.attr('method');
-
-    var formData = new FormData(form[0]);
-    formData.append('formFileUploadClients', ($("#formFileUploadClients"))[0].files[0]);
+function rentalFilmAdd(btn) {
+    let route = btn.data('route');
+    let method = 'POST';
 
     $.ajax({
         url: route,
         type: method,
-        async: true,
-        cache: false,
-        contentType: false,
-        processData: false,
         dataType: 'JSON',
-        data: formData,
+        data: {
+            formType: btn.data('accion'),
+            pelicula_dato: $('#pelicula_dato_nombre').val()
+        },
         success: function(data) {
+            $('.pelicula_datoError').html('&nbsp;');
+
             if(data.status == 'ok')
             {
-                btn.attr('disabled', false);
-                modal.modal('hide');
-                filmGetData();
+                $('#pelicula_dato_nombre').val('');
+                $(btn.data('target') + ' div').remove();
+                $(btn.data('target')).html(data.view);
+
+                dataPicker();
             }
+
+            btn.attr('disabled', false);
         },
         error: function(xhr, status, response) {
             btn.attr('disabled', false);
 
-            $('.pelicula_tipo_nombreError').html('&nbsp;');
+            $('.pelicula_datoError').html('&nbsp;');
+
+            var jsonData = xhr.responseJSON;
+
+            if(jsonData !== undefined) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    if(key != '')
+                    {
+                        $('.' + key + 'Error').html(value);
+                    }
+                });
+            }
+        }
+    });
+}
+
+function rentalFilmActionsTable(btn) {
+    let route = btn.data('route');
+    let method = 'POST';
+
+    $.ajax({
+        url: route,
+        type: method,
+        dataType: 'JSON',
+        data: {
+            formType: btn.data('accion'),
+            pelicula_dato: btn.data('pelicula-dato')
+        },
+        success: function(data) {
+            if(data.status == 'ok')
+            {
+                $(btn.data('target') + ' div').remove();
+                $(btn.data('target')).html(data.view);
+
+                dataPicker();
+            }
+
+            btn.attr('disabled', false);
+        },
+        error: function(xhr, status, response) {
+            btn.attr('disabled', false);
 
             var jsonData = xhr.responseJSON;
 
@@ -304,3 +339,18 @@ function abrirModal(btn) {
         }
     });
 }
+
+function dataPicker() {
+    let dataPicker = $('.selectDate');
+    console.log(dataPicker);
+
+    if(dataPicker.length > 0) {
+        dataPicker.daterangepicker({
+            singleDatePicker: true,
+            locale: {
+                format: 'YYYY-MM-DD'
+            }
+        });
+    }
+}
+

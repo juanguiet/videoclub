@@ -66,7 +66,14 @@ Route::prefix('rental')->group(function () {
     Route::delete('delete/{id}', [RentalsController::class, 'rentals_delete'])->name('rental.rentals_delete');
 
     Route::get('get-rentals', [RentalsController::class, 'get_rentals'])->name('rental.get_rentals');
-    Route::get('search-client', [RentalsController::class, 'get_search_client'])->name('rental.get_search_client');
+
+    Route::get('film-view-data-added/{param}', [RentalsController::class, 'film_view_added'])->name('rental.film_view_added');
+    Route::post('film-add', [RentalsController::class, 'film_add'])->name('rental.film_add');
+    Route::post('film-update', [RentalsController::class, 'film_update'])->name('rental.film_update');
+    Route::get('film-price-total', [RentalsController::class, 'film_price_total'])->name('rental.film_price_total');
+    Route::post('film-remove', [RentalsController::class, 'film_remove'])->name('rental.film_remove');
+
+    Route::post('costo-total', ['uses' => 'UsuarioCarritoController@costo_total', 'as' => 'comprastotal_compras.costo_total']);
 });
 
 Route::group(['prefix' => 'helpers'], function () {

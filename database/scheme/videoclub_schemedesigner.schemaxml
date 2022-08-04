@@ -23,7 +23,7 @@
   PRIMARY KEY (`id`),
   KEY `pelicula_tipo_id` (`pelicula_tipo_id`),
   CONSTRAINT `peliculas_datos_ibfk_1` FOREIGN KEY (`pelicula_tipo_id`) REFERENCES `peliculas_tipos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_generos" view="colnames">
 <left>1399</left>
@@ -69,7 +69,7 @@
   KEY `pelicula_genero_id` (`pelicula_genero_id`),
   CONSTRAINT `peliculas_generos_datos_ibfk_1` FOREIGN KEY (`pelicula_dato_id`) REFERENCES `peliculas_datos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `peliculas_generos_datos_ibfk_2` FOREIGN KEY (`pelicula_genero_id`) REFERENCES `peliculas_generos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="clientes_datos" view="colnames">
 <left>564</left>
@@ -103,9 +103,9 @@
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_datos_alquileres" view="colnames">
-<left>625</left>
+<left>610</left>
 <top>296</top>
-<width>246</width>
+<width>261</width>
 <height>214</height>
 <sql_create_table>CREATE TABLE `peliculas_datos_alquileres` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

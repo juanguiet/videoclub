@@ -73,7 +73,9 @@ $ Composer update
 
 ### 3. Crear base de datos y exportar
 
-En la shell que provee XAMPP (Hacer click ene l botón ubicado en la parte derecha con el nombre Shell) la abrimos y nos autenticamos con el comando 
+La exportación de la base de datos se puede realizar de 2 formas que son: 1. Con la consola. 2. Con herramientas que gestionen gráficamente la base de datos como lo son phpmyadmin, MySQL workbench etc. Para este caso vamos con la opción 1. Con la consola.
+
+En la shell que provee XAMPP (Hacer click ene l botón ubicado en la parte derecha con el nombre Shell) la abrimos y nos autenticamos con el comando
 
 ```sh
 $ mysql -u root

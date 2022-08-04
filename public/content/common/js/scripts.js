@@ -98,6 +98,11 @@ function filmSendData(btn) {
     let form = $( btn.data('formulario') );
     let route = form.attr('action');
     let method = form.attr('method');
+    let chkFilmGender = new Array();
+
+    $("input[name='chkFilmGender[]']:checked").each(function () {
+        chkFilmGender.push($(this).val());
+    });
 
     $.ajax({
         url: route,
@@ -110,6 +115,7 @@ function filmSendData(btn) {
             pelicula_dato_precio_unitario: $('#pelicula_dato_precio_unitario').val(),
             pelicula_tipo_id: $('#pelicula_tipo_id').val(),
             pelicula_dato_sinopsis: $('#pelicula_dato_sinopsis').val(),
+            peliculas_generos_datos: chkFilmGender,
         },
         success: function(data) {
             if(data.status == 'ok')

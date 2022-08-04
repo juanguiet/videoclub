@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 
 use App\Models\PeliculaDato;
 use App\Models\PeliculaGenero;
+use App\Models\PeliculaGeneroDato;
 use App\Models\PeliculaTipo;
 
 class FilmsController extends Controller
@@ -40,6 +41,7 @@ class FilmsController extends Controller
         $txt_pelicula_dato_precio_unitario = $request->input('pelicula_dato_precio_unitario');
         $txt_pelicula_dato_fecha_estreno = $request->input('pelicula_dato_fecha_estreno');
         $cbo_pelicula_tipo_id = $request->input('pelicula_tipo_id');
+        $chk_peliculas_generos_datos = $request->input('peliculas_generos_datos');
 
         $film_data = new PeliculaDato();
         $film_data->pelicula_dato_nombre = $txt_pelicula_dato_nombre;
@@ -49,6 +51,18 @@ class FilmsController extends Controller
         $film_data->pelicula_tipo_id = $cbo_pelicula_tipo_id;
         $film_data->updated_at = null;
         $film_data->save();
+
+        if(count($chk_peliculas_generos_datos) > 0)
+        {
+            foreach($chk_peliculas_generos_datos as $chk_pelicula_genero_dato)
+            {
+                $pelicula_genero_dato = new PeliculaGeneroDato();
+                $pelicula_genero_dato->pelicula_dato_id = $film_data->id;
+                $pelicula_genero_dato->pelicula_genero_id = $chk_pelicula_genero_dato;
+                $pelicula_genero_dato->updated_at = null;
+                $pelicula_genero_dato->save();
+            }
+        }
 
         return response()
                 ->json(
@@ -77,6 +91,7 @@ class FilmsController extends Controller
         $txt_pelicula_dato_precio_unitario = $request->input('pelicula_dato_precio_unitario');
         $txt_pelicula_dato_fecha_estreno = $request->input('pelicula_dato_fecha_estreno');
         $cbo_pelicula_tipo_id = $request->input('pelicula_tipo_id');
+        $chk_peliculas_generos_datos = $request->input('peliculas_generos_datos');
 
         $film_data = PeliculaDato::find($id);
         $film_data->pelicula_dato_nombre = $txt_pelicula_dato_nombre;
@@ -85,6 +100,25 @@ class FilmsController extends Controller
         $film_data->pelicula_dato_fecha_estreno = $txt_pelicula_dato_fecha_estreno;
         $film_data->pelicula_tipo_id = $cbo_pelicula_tipo_id;
         $film_data->save();
+
+        $get_pelicula_genero_dato = PeliculaGeneroDato::GetInfo(null, $film_data->id)->get();
+
+        if(count($get_pelicula_genero_dato) > 0)
+        {
+            PeliculaGeneroDato::GetInfo(null, $film_data->id)->delete();
+        }
+
+        if(!empty($chk_peliculas_generos_datos))
+        {
+            foreach($chk_peliculas_generos_datos as $chk_pelicula_genero_dato)
+            {
+                $pelicula_genero_dato = new PeliculaGeneroDato();
+                $pelicula_genero_dato->pelicula_dato_id = $film_data->id;
+                $pelicula_genero_dato->pelicula_genero_id = $chk_pelicula_genero_dato;
+                $pelicula_genero_dato->updated_at = null;
+                $pelicula_genero_dato->save();
+            }
+        }
 
         return response()
                 ->json(

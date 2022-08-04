@@ -54,4 +54,15 @@ function mounth($mes)
     }
 }
 
+function find_by_id_queals($collections, $id_to_search)
+{
+    foreach($collections as $collection)
+    {
+        if($collection->pelicula_genero_id === $id_to_search)
+            return true;
+    }
+
+    return false;
+}
+
 ?>

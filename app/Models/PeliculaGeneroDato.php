@@ -36,4 +36,27 @@ class PeliculaGeneroDato extends Model
     {
         return $this->belongsTo(PeliculaGenero::class, 'pelicula_genero_id', 'id');
     }
+
+    public function scopeGetInfo($query, $id = null, $pelicula_dato_id = null, $pelicula_genero_id = null)
+    {
+        if($id != null)
+        {
+            $query
+            ->where('id', $id);
+        }
+
+        if($pelicula_dato_id != null)
+        {
+            $query
+            ->where('pelicula_dato_id', $pelicula_dato_id);
+        }
+
+        if($pelicula_genero_id != null)
+        {
+            $query
+            ->where('pelicula_genero_id', $pelicula_genero_id);
+        }
+
+        return $query;
+    }
 }

@@ -32,7 +32,7 @@
             <select class="form-select" id="pelicula_tipo_id" name="pelicula_tipo_id" aria-label="Floating label select">
                 <option value="-1">Seleccione un tipo</option>
                 @foreach($film_types as $film_type)
-                    <option value="{{ $film_type->id }}">{{ $film_type->pelicula_tipo_nombre }}</option>
+                    <option value="{{ $film_type->id }}" @if($film_data) {{ $film_data->pelicula_tipo_id == $film_type->id ? 'selected' : '' }} @endif>{{ $film_type->pelicula_tipo_nombre }}</option>
                 @endforeach
             </select>
             <label for="pelicula_tipo_id">Seleccione un tipo</label>
@@ -49,4 +49,15 @@
             <span class="has-error pelicula_dato_sinopsisError">&nbsp;</span>
         </div>
     </div>
+</div>
+
+<div class="row mt-2">
+    @foreach($film_genders as $film_gender)
+        <div class="col-sm-12 col-md-6">
+            <div class="form-check form-switch">
+                <input class="form-check-input" name="chkFilmGender[]" type="checkbox" id="flexSwitchCheckChecked{{ $film_gender->id }}" class="chkFilmGender" value="{{ $film_gender->id }}" @if(count($film_data->peliculas_generos_datos) > 0) {{ find_by_id_queals($film_data->peliculas_generos_datos, $film_gender->id) ? 'checked' : '' }} @endif>
+                <label class="form-check-label" for="flexSwitchCheckChecked{{ $film_gender->id }}">{{ $film_gender->pelicula_genero_nombre }}</label>
+            </div>
+        </div>
+    @endforeach
 </div>

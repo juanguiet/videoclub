@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-08-2022 a las 15:37:17
+-- Tiempo de generación: 05-08-2022 a las 15:44:43
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -67,20 +67,6 @@ CREATE TABLE `peliculas_datos` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `peliculas_datos`
---
-
-INSERT INTO `peliculas_datos` (`id`, `pelicula_dato_nombre`, `pelicula_dato_sinopsis`, `pelicula_dato_precio_unitario`, `pelicula_dato_fecha_estreno`, `pelicula_tipo_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Prueba', 'Es solo una prueba', 7000.00, '2022-08-03', 3, '2022-08-03 19:12:29', '2022-08-05 04:53:22', '2022-08-05 04:53:22'),
-(2, 'Esta es otra', 'qaweqe', 15000.00, '2022-08-03', 5, '2022-08-03 19:12:54', '2022-08-04 21:36:43', NULL),
-(3, 'No más asdasd', 'asdasd', 13000.00, '2022-08-04', 4, '2022-08-03 19:13:19', '2022-08-04 21:37:48', NULL),
-(4, 'Liga de la justicia', 'asdasd', 12000.00, '2022-08-03', 3, '2022-08-03 20:24:47', '2022-08-04 21:37:00', NULL),
-(5, 'Mi prueba', 'asdasd', 18000.00, '2022-08-03', 3, '2022-08-03 20:25:06', '2022-08-04 21:37:31', NULL),
-(6, 'asdasd', 'asdaaaa', 10000.00, '2022-08-04', 4, '2022-08-03 21:03:12', '2022-08-04 21:36:50', NULL),
-(7, 'Liga de la justicia joven', 'Es una serie animada', 20000.00, '2022-08-03', 3, '2022-08-04 00:44:06', '2022-08-04 21:37:13', NULL),
-(8, 'ad', 'asdasd', 123.00, '2022-08-04', 4, '2022-08-04 11:36:00', '2022-08-04 11:36:06', '2022-08-04 11:36:06');
 
 -- --------------------------------------------------------
 

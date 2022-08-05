@@ -60,19 +60,17 @@ Route::prefix('clients')->group(function () {
 Route::prefix('rental')->group(function () {
     Route::get('/', [RentalsController::class, 'index'])->name('rental.rental_list');
     Route::get('new-rental', [RentalsController::class, 'rentals_create'])->name('rental.rentals_create');
-    Route::post('create-process', [RentalsController::class, 'rentals_create_process'])->name('rental.rentals_create_process');
+    Route::post('new-rental-process', [RentalsController::class, 'rentals_create_process'])->name('rental.rentals_create_process');
     Route::get('edit/{id}', [RentalsController::class, 'rentals_edit'])->name('rental.rentals_edit');
     Route::patch('edit-process/{id}', [RentalsController::class, 'rentals_edit_process'])->name('rental.rentals_edit_process');
     Route::delete('delete/{id}', [RentalsController::class, 'rentals_delete'])->name('rental.rentals_delete');
 
     Route::get('get-rentals', [RentalsController::class, 'get_rentals'])->name('rental.get_rentals');
 
-    Route::get('film-view-data-added/{param}', [RentalsController::class, 'film_view_added'])->name('rental.film_view_added');
+    Route::get('film-view-data-added/{param?}', [RentalsController::class, 'film_view_added'])->name('rental.film_view_added');
     Route::post('film-add', [RentalsController::class, 'film_add'])->name('rental.film_add');
     Route::post('film-change-dates', [RentalsController::class, 'film_change_dates'])->name('rental.film_change_dates');
     Route::post('film-remove', [RentalsController::class, 'film_remove'])->name('rental.film_remove');
-
-    Route::post('costo-total', ['uses' => 'UsuarioCarritoController@costo_total', 'as' => 'comprastotal_compras.costo_total']);
 });
 
 Route::group(['prefix' => 'helpers'], function () {

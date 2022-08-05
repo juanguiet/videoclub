@@ -351,7 +351,7 @@ function rentalFilmClientProcess(btn) {
             btn.attr('disabled', false);
 
             if(data.status == 'ok') {
-
+                window.location.href = data.route;
             } else if(data.status == 'error') {
                 toast(data.title, data.message, data.message_status)
             }

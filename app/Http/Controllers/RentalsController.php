@@ -75,13 +75,15 @@ class RentalsController extends Controller
                     $film_data_rental->save();
                 }
 
+                Session::forget('films');
+
                 return response()->json(
                     [
-                        'status' => 'error',
+                        'status' => 'ok',
                         'message_status' => 'success',
                         'title' => 'Alquiler de películas',
                         'message' => 'Se alquiló la(s) películas al cliente ' . $cliente_dato->cliente_dato_nombres,
-                        'route' => route('films.films_type.films_type_list')
+                        'route' => route('rental.rental_list')
                     ], 200
                 );
             }

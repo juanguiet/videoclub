@@ -22,10 +22,10 @@
                             <img class="img-fluid" src="{{ URL::asset('app/images/general/user_icon_128.png') }}" alt="Avatar" />
                         </div>
                         <div class="card-body" style="overflow-y: auto">
-                            <h4 class="card-title text-ellipsis">{{ $rental->pelicula_dato_nombre }}</h4>
+                            <h4 class="card-title text-ellipsis">{{ $rental->cliente_dato->cliente_dato_nombres . ' ' . $rental->cliente_dato->cliente_dato_apellidos }}</h4>
                             <p class="card-text">
-                                <small class="text-muted">Precio unitario: ${{ num_format($rental->pelicula_dato_precio_unitario) }}</small><br>
-                                <small class="text-muted">Fecha de lanzamiento: {{ '' }}</small>
+                                <small class="text-muted">Identificación: {{ $rental->cliente_dato->cliente_dato_num_identificacion }}</small><br>
+                                <small class="text-muted">Núm. películas rentadas: {{ count($rental->peliculas_datos_alquileres) }}</small><br>
                             </p>
                             <p class="card-text">{{ $rental->pelicula_dato_sinopsis }}</p>
                         </div>

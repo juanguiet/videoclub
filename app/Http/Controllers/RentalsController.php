@@ -120,7 +120,21 @@ class RentalsController extends Controller
 
     public function rentals_delete($id)
     {
+        $rental = Alquiler::find($id);
+        $rental_id = $rental->idate;
+        $msg = $rental->delete() ? 'Se ha eliminado el alquiler # ' . $rental_id : 'No se pudo eliminar eliminar la #' . $rental_id;
 
+        return response()
+                ->json(
+                    [
+                        'status' => 'ok',
+                        'action' => 'delete',
+                        'message_status' => 'warning',
+                        'title' => 'Películas',
+                        'message' => $msg,
+                        'route' => route('films.index'),
+                    ], 200
+                );
     }
 
     public function get_rentals()

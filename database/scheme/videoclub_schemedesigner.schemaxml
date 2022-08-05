@@ -36,7 +36,7 @@
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_tipos" view="colnames">
 <left>1205</left>
@@ -51,7 +51,7 @@
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_generos_datos" view="colnames">
 <left>1145</left>
@@ -91,16 +91,17 @@
 <left>301</left>
 <top>313</top>
 <width>239</width>
-<height>146</height>
+<height>172</height>
 <sql_create_table>CREATE TABLE `alquileres` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cliente_dato_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `cliente_dato_id` (`cliente_dato_id`),
   CONSTRAINT `alquileres_ibfk_1` FOREIGN KEY (`cliente_dato_id`) REFERENCES `clientes_datos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 <table name="peliculas_datos_alquileres" view="colnames">
 <left>610</left>
@@ -121,7 +122,7 @@
   KEY `alquiler_id` (`alquiler_id`),
   CONSTRAINT `peliculas_datos_alquileres_ibfk_1` FOREIGN KEY (`pelicula_dato_id`) REFERENCES `peliculas_datos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `peliculas_datos_alquileres_ibfk_2` FOREIGN KEY (`alquiler_id`) REFERENCES `alquileres` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4</sql_create_table>
 </table>
 </tables>
 </canvas>

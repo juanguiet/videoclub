@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Alquiler;
 use App\Models\PeliculaDato;
 use App\Models\PeliculaGenero;
 use Illuminate\Http\Request;
@@ -66,6 +67,13 @@ class ApiController extends Controller
                 $modal = 'pages.clients.components.modals.client-upload-modal';
 
                 $modal_view = View::make($modal, compact('modal_target_name'))->render();
+            break;
+
+            case 'rental-delete-modal':
+                $modal = 'pages.rental.components.modals.rental-delete';
+                $rental = Alquiler::find($item_info);
+
+                $modal_view = View::make($modal, compact('modal_target_name', 'rental'))->render();
             break;
 
             default:

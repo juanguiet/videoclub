@@ -3,6 +3,7 @@
 ## Contenido
 
 - [Acerca del proyecto](#acerca-del-proyecto)
+- [Entregables](#entregables)
 - [Tecnologías y herramientas](#tecnologías-y-herramientas)
 - [Instalación de tecnologías y herramientas](#instalación-de-tecnologías-y-herramientas)
 - [Ejecución](#ejecución)
@@ -12,6 +13,16 @@
 ## Acerca del proyecto
 
 Este proyecto esta desarrollado usando el framework de php Laravel y la base de datos con MySQL.
+
+<br>
+
+## Entregables
+
+Los entregables del proyecto se encuentran en las siguientes carpetas:
+
+- Proyecto: Raíz del repositorio
+- Base de datos: Esta ubicado del directorio database/sql/videoclub.sql.
+- Modelo Entidad Relación: Esta en la ubicación database/scheme/videoclub_schemedesigner.bmp
 
 <br>
 

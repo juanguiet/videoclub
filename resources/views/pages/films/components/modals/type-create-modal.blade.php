@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <form action="{{ route('films.films_genders.films_genders_create') }}" method="POST" id="frmData" class="mt-4">
+    <form action="{{ route('films.films_type.films_type_create') }}" method="POST" id="frmData" class="mt-4">
         <input type="hidden" name="formType" id="formType" value="film-type-create">
         @include('pages.films.components.forms.types-form')
     </form>

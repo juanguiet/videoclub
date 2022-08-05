@@ -142,7 +142,9 @@ class FilmsController extends Controller
                     [
                         'status' => 'ok',
                         'action' => 'delete',
-                        'msg' => $msg,
+                        'message_status' => 'warning',
+                        'title' => 'Películas',
+                        'message' => 'La película ' . $txt_pelicula_dato_nombre . ' fue eliminada.',
                         'route' => route('films.index'),
                     ], 200
                 );
@@ -188,6 +190,9 @@ class FilmsController extends Controller
                     [
                         'status' => 'ok',
                         'action' => 'create',
+                        'message_status' => 'success',
+                        'title' => 'Películas - Tipos',
+                        'message' => 'El tipo de ' . $txt_pelicula_tipo_nombre . ' fue agregadó.',
                         'data' => $film_type
                     ], 200
                 );
@@ -210,6 +215,9 @@ class FilmsController extends Controller
                     [
                         'status' => 'ok',
                         'action' => 'update',
+                        'message_status' => 'warning',
+                        'title' => 'Películas - Tipos',
+                        'message' => 'El tipo de ' . $txt_pelicula_tipo_nombre . ' fue modificado.',
                         'data' => $film_type
                     ], 200
                 );
@@ -250,6 +258,9 @@ class FilmsController extends Controller
                     [
                         'status' => 'ok',
                         'action' => 'create',
+                        'message_status' => 'success',
+                        'title' => 'Películas - Generós',
+                        'message' => 'El género de ' . $txt_pelicula_genero_nombre . ' fue creado.',
                         'data' => $film_gender
                     ], 200
                 );
@@ -268,6 +279,9 @@ class FilmsController extends Controller
                     [
                         'status' => 'ok',
                         'action' => 'update',
+                        'message_status' => 'warning',
+                        'title' => 'Películas - Generós',
+                        'message' => 'El género de ' . $txt_pelicula_genero_nombre . ' fue modificado.',
                         'data' => $film_gender
                     ], 200
                 );

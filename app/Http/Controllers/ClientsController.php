@@ -35,6 +35,9 @@ class ClientsController extends Controller
                     [
                         'status' => 'ok',
                         'action' => 'imported',
+                        'message_status' => 'success',
+                        'title' => 'Películas - Tipos',
+                        'message' => 'Clientes cargados exitosamente.',
                     ], 200
                 );
     }

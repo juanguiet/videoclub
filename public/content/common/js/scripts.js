@@ -168,6 +168,7 @@ function filmTypeGenereSendData(btn) {
                 btn.attr('disabled', false);
                 modal.modal('hide');
                 filmGetData();
+                toast(data.title, data.message, data.message_status);
             }
         },
         error: function(xhr, status, response) {
@@ -216,6 +217,7 @@ function clientsUpload(btn) {
                 btn.attr('disabled', false);
                 modal.modal('hide');
                 filmGetData();
+                toast(data.title, data.message, data.message_status);
             }
         },
         error: function(xhr, status, response) {
@@ -259,11 +261,9 @@ function rentalFilmAdd(btn) {
                 $(btn.data('target')).html(data.view);
 
                 dataPicker();
-                toast(data.title, data.message, data.message_status);
-            } else if(data.status == 'error') {
-                toast(data.title, data.message, data.message_status);
             }
 
+            toast(data.title, data.message, data.message_status);
             btn.attr('disabled', false);
         },
         error: function(xhr, status, response) {
@@ -311,11 +311,9 @@ function rentalFilmActionsTable(btn) {
                 $(btn.data('target')).html(data.view);
 
                 dataPicker();
-                toast(data.title, data.message, data.message_status);
-            } else if(data.status == 'error') 
-                toast(data.title, data.message, data.message_status);
-            
+            }
 
+            toast(data.title, data.message, data.message_status);
             btn.attr('disabled', false);
         },
         error: function(xhr, status, response) {

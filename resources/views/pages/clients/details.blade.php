@@ -41,3 +41,11 @@
     <input type="hidden" id="viewLoading" value="{{ $view_load }}" />
 
 @endsection
+
+@section('page-styles')
+    <link href="{{ URL::asset('content/vendor/simple-notify/dist/simple-notify.min.css') }}" rel="stylesheet" />
+@endsection
+
+@section('page-scripts')
+    <script src="{{ URL::asset('content/vendor/simple-notify/dist/simple-notify.min.js') }}"></script>
+@endsection

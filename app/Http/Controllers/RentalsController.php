@@ -58,10 +58,32 @@ class RentalsController extends Controller
         {
             if(count($films) > 0)
             {
+                $rental = new Alquiler();
+                $rental->cliente_dato_id = $cliente_dato->id;
+                $rental->updated_at = null;
+                $rental->save();
+
                 foreach($films as $film)
                 {
-    
+                    $film_data_rental = new PeliculaDatoAlquiler();
+                    $film_data_rental->alquiler_id = $rental->id;
+                    $film_data_rental->pelicula_dato_id = $film->id;
+                    $film_data_rental->pelicula_dato_alquiler_fecha_inicio = $film->pelicula_dato_alquiler_fecha_inicio;
+                    $film_data_rental->pelicula_dato_alquiler_fecha_fin = $film->pelicula_dato_alquiler_fecha_fin;
+                    $film_data_rental->pelicula_dato_alquiler_valor_pagar = $film->pelicula_dato_alquiler_valor_sub_total;
+                    $film_data_rental->updated_at = null;
+                    $film_data_rental->save();
                 }
+
+                return response()->json(
+                    [
+                        'status' => 'error',
+                        'message_status' => 'success',
+                        'title' => 'Alquiler de películas',
+                        'message' => 'Se alquiló la(s) películas al cliente ' . $cliente_dato->cliente_dato_nombres,
+                        'route' => route('films.films_type.films_type_list')
+                    ], 200
+                );
             }
 
             return response()->json(

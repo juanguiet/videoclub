@@ -419,4 +419,3 @@ function toast(titleToast, messageToast, statusToast) {
         autoclose: true,
     })
 }
-

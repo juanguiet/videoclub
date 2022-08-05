@@ -3,27 +3,31 @@
 @section('page-title', 'Géneros de películas')
 
 @section('page-content-breadcrumb')
-    <div class="mt-3">
+    <div class="mt-1">
         <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('home.index') }}">Inicio</a>
+            <ul class="breadcrumbs">
+                <li class="first">
+                    <a href="{{ route('home.index') }}">
+                        <i class="fa fa-solid fa-house"></i>
+                    </a>
                 </li>
-                <li class="breadcrumb-item active">
+                <li>
                     <a href="{{ route('films.index') }}">Películas</a>
                 </li>
-                <li class="breadcrumb-item active" aria-current="page">@yield('page-title')</li>
-            </ol>
+                <li class="last active">
+                    <a href="#">@yield('page-title')</a>
+                </li>
+            </ul>
         </nav>
     </div>
 @endsection
 
 @section('page-content-body')
 
-    <div class="container">
+    <div class="container mt-4">
         <div class="row">
             <div class="col-12">
-                <button class="btn btn-info float-end btnAction" data-accion="abrir-modal" data-route="{{ route('helpers.get_modal') }}" data-target="#films-gender-add-modal">
+                <button class="btn btn-outline-primary float-end btnAction" data-accion="abrir-modal" data-route="{{ route('helpers.get_modal') }}" data-target="#films-gender-add-modal">
                     Agregar
                 </button>
             </div>

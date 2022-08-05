@@ -14,7 +14,10 @@
                 <tr>
                     <td>
                         <strong>{{ $film->pelicula_dato_nombre }}</strong><br>
-                        <small>Tipo: {{ $film->pelicula_tipo->pelicula_tipo_nombre }}</small>
+                        <small>Tipo: {{ $film->pelicula_tipo->pelicula_tipo_nombre }}</small><br>
+                        <small>Precio unitario: ${{ num_format($film->pelicula_dato_precio_unitario) }}</small><br>
+                        <small>Porcentaje días de adición: {{ $film->pelicula_dato_alquiler_dia_porcent_adicional }}%</small><br>
+                        <small>Cobrar días de adición después de {{ $film->pelicula_dato_alquiler_dia_adicional_desde }} días</small>
                     </td>
                     <td>
                         <div class="width-200">
@@ -37,7 +40,7 @@
                         {{ $film->pelicula_dato_alquiler_num_dias }} días
                     </td>
                     <td>
-                        ${{ number_format(0) }}
+                        ${{ num_format($film->pelicula_dato_alquiler_valor_sub_total) }}
                     </td>
                     <td>
                         <button class="btn btn-link btnAction" data-accion="rental-update-film" data-route="{{ route('rental.film_change_dates') }} " data-pelicula-dato="{{ $film->id }}" data-target="#tableDataFilms">
@@ -53,5 +56,14 @@
                 </tr>
             @endforeach
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <div class="float-end">
+                        <h3><strong>Subtotal</strong>: ${{ num_format($total_pay) }}</h3>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 </div>

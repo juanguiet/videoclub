@@ -72,12 +72,22 @@ function find_by_data($collections, $collection_fiel_search, $data_to_search)
     return false;
 }
 
-function countDaysDiferent($start_date, $end_date)
+function count_days_different($start_date, $end_date)
 {
     $to = Carbon::parse($start_date);
     $from = Carbon::parse($end_date);
 
     return $to->diffInDays($from);
+}
+
+function totalPayRentalFilms($base_rate, $num_days, $num_days_addition_from, $percent_pay_addition)
+{
+    return $num_days <= $num_days_addition_from ? $base_rate * $num_days : ($base_rate * $num_days_addition_from) + (($base_rate * (($percent_pay_addition + 100) / 100)) * ($num_days - $num_days_addition_from));
+}
+
+function num_format($val)
+{
+    return number_format($val, 2, ',', '.');
 }
 
 ?>

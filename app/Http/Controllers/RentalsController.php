@@ -19,9 +19,7 @@ class RentalsController extends Controller
     function __construct()
     {
         if(!Session::has('films'))
-        {
             Session::put('films', array());
-        }
 
         $this->view_load = View::make('vendor.messages.loading-data');
     }
@@ -50,9 +48,40 @@ class RentalsController extends Controller
                                              'films_data' => $films_data]);
     }
 
-    public function rentals_create_process()
+    public function rentals_create_process(Request $request)
     {
+        $txt_cliente_dato_num_identificacion = $request->input('cliente_dato_num_identificacion');
+        $cliente_dato = ClienteDato::Getinfo(null, $txt_cliente_dato_num_identificacion)->first();
+        $films = Session::get('films');
 
+        if($cliente_dato)
+        {
+            if(count($films) > 0)
+            {
+                foreach($films as $film)
+                {
+    
+                }
+            }
+
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message_status' => 'warning',
+                    'title' => 'Alquiler de películas',
+                    'message' => 'Las lista de películas esta vacía',
+                ], 200
+            );
+        }
+
+        return response()->json(
+            [
+                'status' => 'error',
+                'message_status' => 'warning',
+                'title' => 'Alquiler de películas',
+                'message' => 'Por favor seleccione un cliente',
+            ], 200
+        );
     }
 
     public function rentals_edit($id)
@@ -95,6 +124,8 @@ class RentalsController extends Controller
                 return response()->json(
                     [
                         'status' => 'ok',
+                        'message_status' => 'warning',
+                        'title' => 'Alquiler de películas',
                         'message' => 'No hay películas agregadas',
                         'total' => count(Session::get('films')),
                         'view' => View::make('pages.rental.messages.empty-films-selected')->render()
@@ -109,7 +140,7 @@ class RentalsController extends Controller
 
         foreach($films as $film)
         {
-            $total_pay += ($films[$film->id]->valorunitario * $films[$film->id]->amount);
+            $total_pay += $film->pelicula_dato_alquiler_valor_sub_total;
         }
 
         if($ajax === 'ajax')
@@ -145,21 +176,25 @@ class RentalsController extends Controller
 
                 return response()->json(
                     [
-                        'status' => 'find',
+                        'status' => 'error',
+                        'message_status' => 'warning',
+                        'title' => 'Alquiler de películas',
                         'message' => $msg,
-                        'erros' => [
-                            'pelicula_dato' => $msg
-                        ]
-                    ], 422
+                    ], 200
                 );
             }
 
-            $film_data->pelicula_dato_alquiler_fecha_inicio = fecha_actual()->format('Y-m-d');
-            $film_data->pelicula_dato_alquiler_fecha_fin = fecha_actual()->addDays(1)->format('Y-m-d');
-            $film_data->pelicula_dato_alquiler_num_dias = countDaysDiferent($film_data->pelicula_dato_alquiler_fecha_inicio, $film_data->pelicula_dato_alquiler_fecha_fin);
-            $film_data->pelicula_dato_alquiler_valor_sub_total = 0;
-            $film_data->pelicula_dato_alquiler_valor_pagar = 0;
-    
+            $date_start = fecha_actual()->format('Y-m-d');
+            $date_end = fecha_actual()->addDays(1)->format('Y-m-d');
+            $num_days = count_days_different($date_start, $date_end);
+
+            $film_data->pelicula_dato_alquiler_fecha_inicio = $date_start;
+            $film_data->pelicula_dato_alquiler_fecha_fin = $date_end;
+            $film_data->pelicula_dato_alquiler_num_dias = $num_days;
+            $film_data->pelicula_dato_alquiler_dia_adicional_desde = $film_data->pelicula_tipo->pelicula_tipo_dia_adicional_desde;
+            $film_data->pelicula_dato_alquiler_dia_porcent_adicional = $film_data->pelicula_tipo->pelicula_tipo_porcent_dia_adicional;
+            $film_data->pelicula_dato_alquiler_valor_sub_total = totalPayRentalFilms($film_data->pelicula_dato_precio_unitario, $num_days, $film_data->pelicula_dato_alquiler_dia_adicional_desde, $film_data->pelicula_dato_alquiler_dia_porcent_adicional);
+
             $films[$film_data->id] = $film_data;
             Session::put('films', $films);
             $msg = 'Película ' . $film_name . ' agregada';
@@ -168,6 +203,8 @@ class RentalsController extends Controller
         return response()->json(
             [
                 'status' => 'ok',
+                'message_status' => 'success',
+                'title' => 'Alquiler de películas',
                 'message' => $msg,
                 'view' => $this->film_view_added()->render()
             ], 200
@@ -178,25 +215,35 @@ class RentalsController extends Controller
     {
         $films = Session::get('films');
         $film_id = $request->input('pelicula_dato');
-        $txt_pelicula_dato_alquiler_fecha_inicio = $request->input('pelicula_dato_alquiler_fecha_inicio');
-        $txt_pelicula_dato_alquiler_fecha_fin = $request->input('pelicula_dato_alquiler_fecha_fin');
+        $msg = 'No hay películas seleccionadas';
 
-        $film_data = $films[$film_id];
-        $film_data->pelicula_dato_alquiler_fecha_inicio = $txt_pelicula_dato_alquiler_fecha_inicio;
-        $film_data->pelicula_dato_alquiler_fecha_fin = $txt_pelicula_dato_alquiler_fecha_fin;
-        $film_data->pelicula_dato_alquiler_num_dias = countDaysDiferent($film_data->pelicula_dato_alquiler_fecha_inicio, $film_data->pelicula_dato_alquiler_fecha_fin);
-        $film_data->pelicula_dato_alquiler_valor_sub_total = 0;
-        $film_data->pelicula_dato_alquiler_valor_pagar = 0;
+        if(find_by_data($films, 'id', $film_id))
+        {
+            $txt_pelicula_dato_alquiler_fecha_inicio = $request->input('pelicula_dato_alquiler_fecha_inicio');
+            $txt_pelicula_dato_alquiler_fecha_fin = $request->input('pelicula_dato_alquiler_fecha_fin');
 
-        $films[$film_id] = $film_data;
-        Session::put('films', $films);
+            $num_days = count_days_different($txt_pelicula_dato_alquiler_fecha_inicio, $txt_pelicula_dato_alquiler_fecha_fin);
+
+            $film_data = $films[$film_id];
+            $film_data->pelicula_dato_alquiler_fecha_inicio = $txt_pelicula_dato_alquiler_fecha_inicio;
+            $film_data->pelicula_dato_alquiler_fecha_fin = $txt_pelicula_dato_alquiler_fecha_fin;
+            $film_data->pelicula_dato_alquiler_num_dias = count_days_different($film_data->pelicula_dato_alquiler_fecha_inicio, $film_data->pelicula_dato_alquiler_fecha_fin);
+            $film_data->pelicula_dato_alquiler_valor_sub_total = totalPayRentalFilms($film_data->pelicula_dato_precio_unitario, $num_days, $film_data->pelicula_dato_alquiler_dia_adicional_desde, $film_data->pelicula_dato_alquiler_dia_porcent_adicional);;
+
+            $films[$film_id] = $film_data;
+            Session::put('films', $films);
+
+            $msg = 'Información actualizada';
+        }
 
         return response()->json(
             [
                 'status' => 'ok',
-                'message' => 'Fechas actualizadas',
+                'message_status' => 'success',
+                'title' => 'Alquiler de películas',
+                'message' => $msg,
                 'view' => $this->film_view_added()->render(),
-            ]
+            ], 200
         );
     }
 
@@ -209,40 +256,12 @@ class RentalsController extends Controller
         return response()->json(
             [
                 'status' => 'ok',
+                'message_status' => 'warning',
+                'title' => 'Alquiler de películas',
                 'message' => 'Película eliminada',
                 'view' => $this->film_view_added()->render(),
             ], 200
         );
-    }
-
-    public function film_price_total(RentalsRequest $request)
-    {
-        if($request->ajax())
-        {
-            $total_pagar = 0;
-            $total = Session::get('films');
-            $cesta = Session::get('films');
-            $cantidad = $request->input('dato');
-            $producto = $request->input('producto');
-            $valor_unitario = $cesta[$request->input('producto')]->valorunitario;
-            $cesta[$request->input('producto')]->cantidad = $cantidad;
-            Session::put('films', $cesta);
-
-            foreach($cesta as $cestas)
-            {
-                $total_pagar += ($total[$cestas->id]->valorunitario * $total[$cestas->id]->cantidad);
-            }
-
-            return response()->json(
-                [
-                    'mensaje' => 'Cantidad del producto actualizada',
-                    'total' => count(Session::get('films')),
-                    'total_costo_prodc' => ($valor_unitario * $cantidad),
-                    'producto' => $producto,
-                    'totalpagar' => $total_pagar
-                ]
-            );
-        }
     }
 
 }

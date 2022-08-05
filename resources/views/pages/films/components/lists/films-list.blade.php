@@ -19,7 +19,11 @@
                         <img src="{{ URL::asset('app/images/general/pcture.jpg') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <h5 class="card-title text-ellipsis">{{ $film->pelicula_dato_nombre }}</h5>
-                            <p class="card-text"><small class="text-muted">Fecha de lanzamiento: {{ $film->pelicula_dato_fecha_estreno->format('d') . ' de ' . mounth($film->pelicula_dato_fecha_estreno->format('m')) . ', ' . $film->pelicula_dato_fecha_estreno->format('Y') }}</small></p>
+                            <p class="card-text">
+                            
+                                <small class="text-muted">Precio unitario: ${{ num_format($film->pelicula_dato_precio_unitario) }}</small><br>
+                                <small class="text-muted">Fecha de lanzamiento: {{ $film->pelicula_dato_fecha_estreno->format('d') . ' de ' . mounth($film->pelicula_dato_fecha_estreno->format('m')) . ', ' . $film->pelicula_dato_fecha_estreno->format('Y') }}</small>
+                            </p>
                             <div class="float-end">
                                 <a href="{{ route('films.films_edit', [$film->id]) }}" class="btn btn-default">
                                     <i class="fa fa-solid fa-pencil"></i>

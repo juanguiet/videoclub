@@ -36,6 +36,10 @@ $(document).on('click', '.btnAction', function(e) {
         case 'rental-action-table-film':
             rentalFilmActionsTable(btn);
         break;
+
+        case 'rental-process-client':
+            rentalFilmClientProcess(btn);
+        break;
     }
 });
 
@@ -255,6 +259,9 @@ function rentalFilmAdd(btn) {
                 $(btn.data('target')).html(data.view);
 
                 dataPicker();
+                toast(data.title, data.message, data.message_status);
+            } else if(data.status == 'error') {
+                toast(data.title, data.message, data.message_status);
             }
 
             btn.attr('disabled', false);
@@ -304,9 +311,10 @@ function rentalFilmActionsTable(btn) {
                 $(btn.data('target')).html(data.view);
 
                 dataPicker();
-            } else if(data.status == 'find') {
-
-            }
+                toast(data.title, data.message, data.message_status);
+            } else if(data.status == 'error') 
+                toast(data.title, data.message, data.message_status);
+            
 
             btn.attr('disabled', false);
         },
@@ -315,6 +323,43 @@ function rentalFilmActionsTable(btn) {
 
             $('.pelicula_dato_alquiler_fecha_inicio' + peliculaDato + 'Error').html('&nbsp;');
             $('.pelicula_dato_alquiler_fecha_fin' + peliculaDato + 'Error').html('&nbsp;');
+
+            var jsonData = xhr.responseJSON;
+
+            if(jsonData !== undefined) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    if(key != '')
+                    {
+                        $('.' + key + peliculaDato + 'Error').html(value);
+                    }
+                });
+            }
+        }
+    });
+}
+
+function rentalFilmClientProcess(btn) {
+    let modal = $( btn.data('modal') );
+    let form = $( btn.data('formulario') );
+    let route = form.attr('action');
+    let method = form.attr('method');
+
+    $.ajax({
+        url: route,
+        type: method,
+        dataType: 'JSON',
+        data: form.serialize(),
+        success: function(data) {
+            btn.attr('disabled', false);
+
+            if(data.status == 'ok') {
+
+            } else if(data.status == 'error') {
+                toast(data.title, data.message, data.message_status)
+            }
+        },
+        error: function(xhr, status, response) {
+            btn.attr('disabled', false);
 
             var jsonData = xhr.responseJSON;
 
@@ -364,5 +409,16 @@ function dataPicker() {
             }
         });
     }
+}
+
+function toast(titleToast, messageToast, statusToast) {
+    new Notify ({
+        title: titleToast,
+        text: messageToast,
+        effect: 'slide',
+        speed: 300,
+        status: statusToast,
+        autoclose: true,
+    })
 }
 

@@ -40,6 +40,12 @@ class RentalsRequest extends FormRequest
                     'pelicula_dato_alquiler_fecha_fin' => 'required|date_format:Y-m-d',
                 ];
             break;
+
+            case 'rental-save':
+                return [
+                    'cliente_dato_num_identificacion' => 'required'
+                ];
+            break;
         }
     }
 }

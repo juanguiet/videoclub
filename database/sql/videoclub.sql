@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-08-2022 a las 13:47:44
+-- Tiempo de generación: 05-08-2022 a las 15:37:17
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -31,7 +31,8 @@ CREATE TABLE `alquileres` (
   `id` int(11) NOT NULL,
   `cliente_dato_id` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -48,14 +49,6 @@ CREATE TABLE `clientes_datos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `clientes_datos`
---
-
-INSERT INTO `clientes_datos` (`id`, `cliente_dato_num_identificacion`, `cliente_dato_nombres`, `cliente_dato_apellidos`, `created_at`, `updated_at`) VALUES
-(10, '123', 'Prueba 1', 'Prueba Apellido 1', '2022-08-03 23:47:10', '2022-08-03 23:47:10'),
-(11, '321', 'Prueba 2', 'Prueba Apellido 2', '2022-08-03 23:47:10', '2022-08-03 23:47:10');
 
 -- --------------------------------------------------------
 
@@ -80,13 +73,13 @@ CREATE TABLE `peliculas_datos` (
 --
 
 INSERT INTO `peliculas_datos` (`id`, `pelicula_dato_nombre`, `pelicula_dato_sinopsis`, `pelicula_dato_precio_unitario`, `pelicula_dato_fecha_estreno`, `pelicula_tipo_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Prueba', 'Es solo una prueba', 200000.00, '2022-08-03', 3, '2022-08-03 19:12:29', NULL, NULL),
-(2, 'Esta es otra', 'qaweqe', 14444.00, '2022-08-03', 5, '2022-08-03 19:12:54', '2022-08-03 23:52:35', NULL),
-(3, 'No más asdasd', 'asdasd', 11111.00, '2022-08-04', 4, '2022-08-03 19:13:19', '2022-08-04 11:36:21', NULL),
-(4, 'Liga de la justicia', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:24:47', NULL, NULL),
-(5, 'Mi prueba', 'asdasd', 11111.00, '2022-08-03', 3, '2022-08-03 20:25:06', NULL, NULL),
-(6, 'asdasd', 'asdaaaa', 1111.00, '2022-08-04', 4, '2022-08-03 21:03:12', '2022-08-04 11:36:13', NULL),
-(7, 'Liga de la justicia joven', 'Es una serie animada', 200000.00, '2022-08-03', 3, '2022-08-04 00:44:06', '2022-08-04 00:48:13', NULL),
+(1, 'Prueba', 'Es solo una prueba', 7000.00, '2022-08-03', 3, '2022-08-03 19:12:29', '2022-08-05 04:53:22', '2022-08-05 04:53:22'),
+(2, 'Esta es otra', 'qaweqe', 15000.00, '2022-08-03', 5, '2022-08-03 19:12:54', '2022-08-04 21:36:43', NULL),
+(3, 'No más asdasd', 'asdasd', 13000.00, '2022-08-04', 4, '2022-08-03 19:13:19', '2022-08-04 21:37:48', NULL),
+(4, 'Liga de la justicia', 'asdasd', 12000.00, '2022-08-03', 3, '2022-08-03 20:24:47', '2022-08-04 21:37:00', NULL),
+(5, 'Mi prueba', 'asdasd', 18000.00, '2022-08-03', 3, '2022-08-03 20:25:06', '2022-08-04 21:37:31', NULL),
+(6, 'asdasd', 'asdaaaa', 10000.00, '2022-08-04', 4, '2022-08-03 21:03:12', '2022-08-04 21:36:50', NULL),
+(7, 'Liga de la justicia joven', 'Es una serie animada', 20000.00, '2022-08-03', 3, '2022-08-04 00:44:06', '2022-08-04 21:37:13', NULL),
 (8, 'ad', 'asdasd', 123.00, '2022-08-04', 4, '2022-08-04 11:36:00', '2022-08-04 11:36:06', '2022-08-04 11:36:06');
 
 -- --------------------------------------------------------
@@ -119,14 +112,6 @@ CREATE TABLE `peliculas_generos` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Volcado de datos para la tabla `peliculas_generos`
---
-
-INSERT INTO `peliculas_generos` (`id`, `pelicula_genero_nombre`, `created_at`, `updated_at`) VALUES
-(1, 'Aventura', '2022-08-03 16:52:48', NULL),
-(2, 'Ciencia ficción', '2022-08-03 16:58:43', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -140,20 +125,6 @@ CREATE TABLE `peliculas_generos_datos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `peliculas_generos_datos`
---
-
-INSERT INTO `peliculas_generos_datos` (`id`, `pelicula_dato_id`, `pelicula_genero_id`, `created_at`, `updated_at`) VALUES
-(2, 7, 1, '2022-08-04 00:55:25', NULL),
-(3, 7, 2, '2022-08-04 00:55:25', NULL),
-(10, 4, 1, '2022-08-04 01:01:48', NULL),
-(11, 8, 1, '2022-08-04 11:36:00', NULL),
-(12, 8, 2, '2022-08-04 11:36:00', NULL),
-(13, 6, 2, '2022-08-04 11:36:13', NULL),
-(14, 3, 1, '2022-08-04 11:36:21', NULL),
-(15, 3, 2, '2022-08-04 11:36:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -240,7 +211,7 @@ ALTER TABLE `peliculas_tipos`
 -- AUTO_INCREMENT de la tabla `alquileres`
 --
 ALTER TABLE `alquileres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes_datos`
@@ -258,25 +229,25 @@ ALTER TABLE `peliculas_datos`
 -- AUTO_INCREMENT de la tabla `peliculas_datos_alquileres`
 --
 ALTER TABLE `peliculas_datos_alquileres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_generos`
 --
 ALTER TABLE `peliculas_generos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_generos_datos`
 --
 ALTER TABLE `peliculas_generos_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_tipos`
 --
 ALTER TABLE `peliculas_tipos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas

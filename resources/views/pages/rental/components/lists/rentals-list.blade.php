@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col-12">
-            @include('pages.films.components.forms.films-search-form')
+            @include('pages.rental.components.forms.rental-search-form')
         </div>
     </div>
 

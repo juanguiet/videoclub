@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-08-2022 a las 15:44:43
+-- Tiempo de generación: 07-08-2022 a las 02:56:09
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -58,7 +58,7 @@ CREATE TABLE `clientes_datos` (
 
 CREATE TABLE `peliculas_datos` (
   `id` int(11) NOT NULL,
-  `pelicula_dato_nombre` varchar(60) NOT NULL,
+  `pelicula_dato_nombre` varchar(260) NOT NULL,
   `pelicula_dato_sinopsis` text NOT NULL,
   `pelicula_dato_precio_unitario` float(100,2) NOT NULL,
   `pelicula_dato_fecha_estreno` date NOT NULL,
@@ -197,37 +197,37 @@ ALTER TABLE `peliculas_tipos`
 -- AUTO_INCREMENT de la tabla `alquileres`
 --
 ALTER TABLE `alquileres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `clientes_datos`
 --
 ALTER TABLE `clientes_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_datos`
 --
 ALTER TABLE `peliculas_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_datos_alquileres`
 --
 ALTER TABLE `peliculas_datos_alquileres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_generos`
 --
 ALTER TABLE `peliculas_generos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_generos_datos`
 --
 ALTER TABLE `peliculas_generos_datos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `peliculas_tipos`

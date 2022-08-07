@@ -31,6 +31,8 @@ class RentalsController extends Controller
 
     public function rentals_create()
     {
+        Session::forget('films');
+
         $alquiler = new Alquiler();
         $cliente_dato = new ClienteDato();
         $peliculas_datos_alquileres = new PeliculaDatoAlquiler();
@@ -110,12 +112,89 @@ class RentalsController extends Controller
 
     public function rentals_edit($id)
     {
+        Session::forget('films');
 
+        $alquiler = Alquiler::find($id);
+        $cliente_dato = $alquiler->cliente_dato;
+        $this->film_load_data($alquiler->peliculas_datos_alquileres);
+
+        $clientes_datos = ClienteDato::GetInfo()->get();
+        $films_data = PeliculaDato::Getinfo()->get();
+
+        return View::make('pages.rental.edit-rental', 
+                                        [
+                                            'view_load' => $this->view_load,
+                                            'alquiler' => $alquiler,
+                                            'cliente_dato' => $cliente_dato,
+                                            'clientes_datos' => $clientes_datos,
+                                             'films_data' => $films_data]);
     }
 
-    public function rentals_edit_process()
+    public function rentals_edit_process(Request $request, $id)
     {
+        $txt_cliente_dato_num_identificacion = $request->input('cliente_dato_num_identificacion');
+        $cliente_dato = ClienteDato::Getinfo(null, $txt_cliente_dato_num_identificacion)->first();
+        $films = Session::get('films');
 
+        if($cliente_dato)
+        {
+            if(count($films) > 0)
+            {
+                $rental = Alquiler::find($id);
+                $rental->cliente_dato_id = $cliente_dato->id;
+                $rental->updated_at = null;
+                $rental->save();
+
+                $peliculas_datos_alquileres = PeliculaDatoAlquiler::GetInfo(null, $rental->id)->get();
+
+                if($peliculas_datos_alquileres->count() > 0)
+                {
+                    PeliculaDatoAlquiler::GetInfo(null, $rental->id)->delete();
+                }
+
+                foreach($films as $film)
+                {
+                    $film_data_rental = new PeliculaDatoAlquiler();
+                    $film_data_rental->alquiler_id = $rental->id;
+                    $film_data_rental->pelicula_dato_id = $film->id;
+                    $film_data_rental->pelicula_dato_alquiler_fecha_inicio = $film->pelicula_dato_alquiler_fecha_inicio;
+                    $film_data_rental->pelicula_dato_alquiler_fecha_fin = $film->pelicula_dato_alquiler_fecha_fin;
+                    $film_data_rental->pelicula_dato_alquiler_valor_pagar = $film->pelicula_dato_alquiler_valor_sub_total;
+                    $film_data_rental->updated_at = null;
+                    $film_data_rental->save();
+                }
+
+                Session::forget('films');
+
+                return response()->json(
+                    [
+                        'status' => 'ok',
+                        'message_status' => 'success',
+                        'title' => 'Alquiler de películas',
+                        'message' => 'Se alquiló la(s) películas al cliente ' . $cliente_dato->cliente_dato_nombres,
+                        'route' => route('rental.rental_list')
+                    ], 200
+                );
+            }
+
+            return response()->json(
+                [
+                    'status' => 'error',
+                    'message_status' => 'warning',
+                    'title' => 'Alquiler de películas',
+                    'message' => 'Las lista de películas esta vacía',
+                ], 200
+            );
+        }
+
+        return response()->json(
+            [
+                'status' => 'error',
+                'message_status' => 'warning',
+                'title' => 'Alquiler de películas',
+                'message' => 'Por favor seleccione un cliente',
+            ], 200
+        );
     }
 
     public function rentals_delete($id)
@@ -155,7 +234,7 @@ class RentalsController extends Controller
     {
         $films = Session::get('films');
 
-        if(count(Session::get('films')) == 0 || Session::get('films') == null)
+        if(count($films) == 0 || $films == null)
         {
             if($ajax === 'ajax')
             {
@@ -165,7 +244,7 @@ class RentalsController extends Controller
                         'message_status' => 'warning',
                         'title' => 'Alquiler de películas',
                         'message' => 'No hay películas agregadas',
-                        'total' => count(Session::get('films')),
+                        'total' => count($films),
                         'view' => View::make('pages.rental.messages.empty-films-selected')->render()
                     ], 200
                 );
@@ -186,7 +265,7 @@ class RentalsController extends Controller
             return response()->json(
                 [
                     'status' => 'ok',
-                    'total' => count(Session::get('films')),
+                    'total' => count($films),
                     'view' => View::make('pages.rental.components.lists.rental-data-films', compact('films', 'total_pay'))->render()
                 ], 200
             );
@@ -300,6 +379,29 @@ class RentalsController extends Controller
                 'view' => $this->film_view_added()->render(),
             ], 200
         );
+    }
+
+    private function film_load_data($films_data_rentails)
+    {
+        $films = Session::get('films');
+
+        foreach($films_data_rentails as $film_data_rentail)
+        {
+            $film_data = $film_data_rentail->pelicula_dato;
+            $date_start = $film_data_rentail->pelicula_dato_alquiler_fecha_inicio;
+            $date_end = $film_data_rentail->pelicula_dato_alquiler_fecha_fin;
+            $num_days = count_days_different($date_start, $date_end);
+
+            $film_data->pelicula_dato_alquiler_fecha_inicio = $date_start;
+            $film_data->pelicula_dato_alquiler_fecha_fin = $date_end;
+            $film_data->pelicula_dato_alquiler_num_dias = $num_days;
+            $film_data->pelicula_dato_alquiler_dia_adicional_desde = $film_data->pelicula_tipo->pelicula_tipo_dia_adicional_desde;
+            $film_data->pelicula_dato_alquiler_dia_porcent_adicional = $film_data->pelicula_tipo->pelicula_tipo_porcent_dia_adicional;
+            $film_data->pelicula_dato_alquiler_valor_sub_total = totalPayRentalFilms($film_data->pelicula_dato_precio_unitario, $num_days, $film_data->pelicula_dato_alquiler_dia_adicional_desde, $film_data->pelicula_dato_alquiler_dia_porcent_adicional);
+            $films[$film_data->id] = $film_data;
+
+            Session::put('films', $films);
+        }
     }
 
 }
